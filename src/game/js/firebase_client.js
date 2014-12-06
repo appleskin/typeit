@@ -43,16 +43,22 @@ Firebase_client = function( player, lobbyId, host ) {
 Firebase_client.prototype.constructor = Firebase_client;
 
 Firebase_client.prototype.insertWord = function( x, y, text, wid ) {
-	this.words.child(wid).set({
-		x: x,
-		y: y,
-		text: text,
-		wid: wid
-	});
+	if( SESSION.host ) {
+		this.words.child(wid).set({
+			x: x,
+			y: y,
+			text: text,
+			wid: wid
+		});
+	}
 };
 
 Firebase_client.prototype.nukeWord = function( wid ) {
-	this.words.child(wid).set(null);
+	try {
+		this.words.child(wid).set(null);
+	} catch( ex ) {
+		console.error( ex );
+	}
 };
 
 Firebase_client.prototype.setSetting = function( key, value ) {

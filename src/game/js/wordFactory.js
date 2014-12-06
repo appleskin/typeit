@@ -60,9 +60,7 @@ WordFactory.prototype.spawnWord = function() {
 		var spawn_pos = this.getRandomSpawn();
 		var target = new Word( this.game, spawn_pos.x, spawn_pos.y, this.getRandomWord(), this.currentId++ );
 		
-		if( SESSION.host ) {
-			SESSION.firebase.insertWord( target.x, target.y, target.text, target.wid );
-		}
+		SESSION.firebase.insertWord( target.x, target.y, target.text, target.wid );
 
 		var thisFactory = this;
 		// naive lag compensation
