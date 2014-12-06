@@ -93,9 +93,9 @@ Session.prototype.start = function( difficulty ) {
 	}
 };
 
-Session.prototype.insertWord = function( x, y, text ) {
+Session.prototype.insertWord = function( x, y, text, wid ) {
 	if( !this.host ) {
-		this.words.insertWord( x, y, text );
+		this.words.insertWord( x, y, text, wid );
 	}
 };
 
