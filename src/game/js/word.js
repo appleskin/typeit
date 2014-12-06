@@ -44,9 +44,7 @@ Word.prototype.explode = function() {
 		console.log( "Destroying word - " + this.text );
 	}
 
-	if( SESSION.host ) {
-		SESSION.firebase.nukeWord( this.wid );
-	}
+	SESSION.firebase.nukeWord( this.wid );
 
 	this.display_text.destroy( true );
 	this.destroy( true );

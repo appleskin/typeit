@@ -25,12 +25,12 @@ Firebase_client = function( player, lobbyId, host ) {
 			var word = snapshot.val();
 			SESSION.insertWord( word.x, word.y, word.text, word.id );
 		});
-
-		this.words.on("child_removed", function( snapshot ) {
-			var word = snapshot.val();
-			SESSION.removeWord( word.wid );
-		});
 	}
+
+	this.words.on("child_removed", function( snapshot ) {
+		var word = snapshot.val();
+		SESSION.removeWord( word.wid );
+	});
 
 	this.players.child(player.pid).set({
 		id: player.pid,
