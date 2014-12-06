@@ -1,15 +1,29 @@
-Player = function( game, x, y ) {
-	Phaser.Sprite.call(this, game, x, y, 'box');
+Player = function( game, x, y, score, pid ) {
+	Phaser.Sprite.call(this, game, x, y, 'player');
 
     this.anchor.setTo( 0.5, 0.5 );
 
     game.physics.enable( [ this ], Phaser.Physics.ARCADE);
     this.body.collideWorldBounds = true;
 
-    this.pid = this.getPlayerId();
+    this.pid = null;
+    if( pid ) {
+    	this.pid = pid;
+    } else {
+    	this.pid = this.getNewPlayerId();
+	}
+
     this.score = 0;
 
+    if( score ) {
+    	this.score += score;
+    }
+
+    this.style = { font: "12px Arial", fill: "#ffffff", shadowColor:"#000000", shadowOffsetX:"1", shadowOffsetY:"1", shadowBlur:"1", align: "center" };
+    this.display_text = new Phaser.Text( game, x+this.width/4, y-10, '0', this.style );
+
     game.add.existing( this );
+    game.add.existing( this.display_text );
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -23,7 +37,14 @@ Player.prototype.generatePlayerId = function() {
 	});
 };
 
-Player.prototype.getPlayerId = function() {
+Player.prototype.addPoints = function( value ) {
+	this.score += value;
+	this.display_text.text = '' + this.score;
+
+	SESSION.firebase.setPlayerPoints( this );
+};
+
+Player.prototype.getNewPlayerId = function() {
 	var stored_id = STORAGE.getItem('pid' );
 	if( stored_id ) {
 		return stored_id;

@@ -11,6 +11,9 @@ Session.prototype.init = function( game ) {
 	// Is this session hosting the game
 	this.host = true;
 
+	// this.lastPlayerCount = 0;
+	// this.num_layers = 0;
+
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, CONFIG.world.x, CONFIG.world.y);
     this.game.physics.arcade.gravity.y = CONFIG.gravity.y;
@@ -37,6 +40,21 @@ Session.prototype.init = function( game ) {
 
 Session.prototype.update = function() {
 	this.input.update();
+	
+	// // Replace player objects if there are more players now
+	// this.num_players = Object.keys(this.players).length;
+	// if( this.num_players > this.lastPlayerCount ) {
+
+	// 	this.lastPlayerCount = this.num_players;
+
+	// 	// Assign new locations
+	// 	var keys = Object.keys(this.players);
+	// 	for( var i=0; i<keys.length; i++ ) {
+	// 		var player = this.players[keys[i]];
+	// 		player.x = i*100;
+	// 		player.display_text.x = player.x + player.width/4;
+	// 	}
+	// }
 };
 
 Session.prototype.addPlayer = function( player ) {
@@ -45,8 +63,8 @@ Session.prototype.addPlayer = function( player ) {
 
 Session.prototype.connect = function() {
 
-	var player = new Player( game, (CONFIG.world.x/2), CONFIG.world.y-25 );
-	this.addPlayer( Player );
+	var player = new Player( game, 0, CONFIG.world.y-25 );
+	this.addPlayer( player );
 
 	this.lobbyId = UTIL.getUrlParam('lobbyId');
 	if( this.lobbyId ) {
@@ -106,10 +124,40 @@ Session.prototype.begin = function( timeout, limit, gravity ) {
 	document.getElementById("type").focus();
 };
 
+Session.prototype.addPoints = function( value ) {
+	var player = this.players[STORAGE.getItem("pid")];
+
+	player.addPoints( value );
+
+	this.firebase.players.child(player.pid).set({
+		id: player.pid,
+		score: player.score
+	});
+};
+
+Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
+	if( player.pid === STORAGE.getItem('pid') ) {
+		return;
+	}
+	if( !this.players[player.pid] ) {
+
+		var num_players = Object.keys(this.players).length + 1;
+		var x_pos = num_players * 100;
+
+		var new_player = new Player( this.game, x_pos, CONFIG.world.y-25, player.score, player.pid );
+		new_player.display_text.x -= 25;
+
+		this.addPlayer( new_player );
+	} else {
+		this.players[player.pid].score = player.score;
+	}
+};
+
 Session.prototype.processInput = function( text ) {
 
 	this.words.forEach( function( item ) {
 	    if( item && item.text === text ) {
+	    	SESSION.addPoints( 1 );
 	    	SESSION.firebase.nukeWord( item.wid );
 	    }
 	}, this);

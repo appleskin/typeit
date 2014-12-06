@@ -18,10 +18,21 @@ Firebase_client = function( player, lobbyId, host ) {
 		this.players.set(null);
 		this.settings.set(null);
 		this.words.set(null);
-	} else {
-		// If you are not host you must listen
-		// for words being added to the world
-		this.words.on("child_added", function( snapshot ) {
+	}
+
+	// Add yourself to network
+	this.players.child(player.pid).set({
+		pid: player.pid,
+		score: player.score
+	});
+
+	// Set up events
+	this.enableEvents();
+};
+
+Firebase_client.prototype.enableEvents = function() {
+	if( !SESSION.host ) {
+		this.words.on("child_added", function( snapshot, prevName ) {
 			var word = snapshot.val();
 			SESSION.insertWord( word.x, word.y, word.text, word.wid );
 		});
@@ -32,11 +43,20 @@ Firebase_client = function( player, lobbyId, host ) {
 		SESSION.removeWord( word.wid );
 	});
 
-	this.players.child(player.pid).set({
-		id: player.pid,
-		score: player.score
+	this.players.on("child_changed", function( snapshot, prevName ) {
+		SESSION.addOrUpdateNetworkPlayer( snapshot.val() );
 	});
 
+	this.players.on("child_added", function( snapshot, prevName ) {
+		SESSION.addOrUpdateNetworkPlayer( snapshot.val() );
+	});
+};
+
+Firebase_client.prototype.setPlayerPoints = function( player ) {
+	this.players.child(player.pid).set({
+		pid: player.pid,
+		score: player.score
+	});
 };
 
 Firebase_client.prototype.constructor = Firebase_client;
