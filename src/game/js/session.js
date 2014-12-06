@@ -31,6 +31,7 @@ Session.prototype.init = function( game ) {
     };
 
     document.body.appendChild( input );
+    document.body.appendChild( document.createElement('br') );
     document.body.appendChild( start );
 };
 
@@ -57,22 +58,37 @@ Session.prototype.connect = function() {
 	}
 
 	this.firebase = new Firebase_client( player, this.lobbyId, this.host );
+	
+	// Seed host and client
+	if( this.host ) {
+		this.firebase.setSetting( 'gravity',  100  		);
+		this.firebase.setSetting( 'state',    'paused' 	);
+	} else {
+		this.firebase.syncSetting( 'gravity' );
+	}
 };
 
 Session.prototype.start = function( difficulty ) {
+	var gravity = 100;
 	if( this.host ) {
+
+		this.firebase.setSetting( 'state',	 'playing' );
+		this.firebase.setSetting( 'gravity',  gravity  );
+
 		switch( difficulty ) {
 			case 'easy':
-				this.begin( Phaser.Timer.SECOND*3, 10, 100 );
+				this.begin( Phaser.Timer.SECOND*3, 10, gravity );
 			    break;
 			case 'normal':
-				this.begin( Phaser.Timer.SECOND, 15, 100 );
+				gravity *= 2;
+				this.begin( Phaser.Timer.SECOND, 15, gravity );
 			    break;
 			case 'hard':
-				this.begin( Phaser.Timer.SECOND/2, 10, 400 );
+				gravity *= 3;
+				this.begin( Phaser.Timer.SECOND/2, 10, gravity );
 			    break;
 			default:
-				this.begin( Phaser.Timer.SECOND, 15, 200 );
+				this.begin( Phaser.Timer.SECOND, 15, gravity );
 		};
 	}
 };
