@@ -120,7 +120,7 @@ Session.prototype.begin = function( timeout, limit, gravity ) {
 Session.prototype.processInput = function( text ) {
 
 	this.words.forEach( function( item ) {
-	    if( item && && item.wid && item.text === text ) {
+	    if( item && item.wid && item.text === text ) {
 	    	SESSION.firebase.nukeWord( item.wid );
 	    }
 	}, this);
