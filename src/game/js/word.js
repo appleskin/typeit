@@ -33,8 +33,10 @@ Word.prototype.update = function() {
 
 	this.angle += this.rotSpeed;
 
-	if( this.y > CONFIG.world.y + 100 ) {
-		this.explode();
+	if( SESSION.host ) {
+		if( this.y > CONFIG.world.y + 100 ) {
+			SESSION.firebase.nukeWord( this.wid );
+		}
 	}
 
 };
