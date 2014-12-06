@@ -39,13 +39,9 @@ Word.prototype.update = function() {
 
 };
 
-Word.prototype.explode = function( repeat ) {
+Word.prototype.explode = function() {
 	if( CONFIG.debug.word ) {
 		console.log( "Destroying word - " + this.text );
-	}
-
-	if( !repeat ) {
-		SESSION.firebase.nukeWord( this.wid );
 	}
 
 	this.display_text.destroy( true );
