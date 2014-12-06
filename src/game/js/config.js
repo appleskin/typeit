@@ -12,7 +12,7 @@ Config = function() {
 
 	this.debug = {
 		word: false,
-		input: true
+		input: false
 	};
 
 	this.app = {
