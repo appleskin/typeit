@@ -27,7 +27,7 @@ Session.prototype.init = function( game ) {
     start.id = 'start';
     start.innerHTML = 'Start';
     start.onclick = function() {
-    	thisSession.start( 'easy' );
+    	thisSession.start( 'normal' );
     };
 
     document.body.appendChild( input );
