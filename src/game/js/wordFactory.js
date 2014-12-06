@@ -25,7 +25,8 @@ WordFactory.prototype = Object.create(Phaser.Group.prototype);
 WordFactory.prototype.constructor = WordFactory;
 
 WordFactory.prototype.getRandomWord = function() {
-	return this.word_list[ UTIL.random( 0, 14 ) ];
+	return this.word_list[ UTIL.random( 0, 15 ) ];
+	return 'cat';
 };
 
 WordFactory.prototype.getRandomSpawn = function() {
@@ -45,7 +46,7 @@ WordFactory.prototype.spawnWord = function() {
 
 		var spawn_pos = this.getRandomSpawn();
 
-		var target = new Word( this.game, spawn_pos.x, spawn_pos.y );
+		var target = new Word( this.game, spawn_pos.x, spawn_pos.y, this.getRandomWord() );
 		this.add( target );
 
 	} else {

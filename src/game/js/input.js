@@ -13,6 +13,9 @@ Input.prototype.update = function() {
 		if( CONFIG.debug.input ) {
 			console.log( "Entered " + type.value );
 		}
+
+		SESSION.processInput( type.value );
+
 		type.value = null;
 	}
 };

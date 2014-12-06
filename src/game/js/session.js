@@ -1,5 +1,6 @@
 Session = function() {
 	this.players = [];
+	this.loops = [];
 };
 
 Session.prototype.constructor = Session;
@@ -48,9 +49,46 @@ Session.prototype.start = function( difficulty ) {
 };
 
 Session.prototype.begin = function( timeout, limit, gravity ) {
-	game.time.events.loop(timeout, function() {
-		game.physics.arcade.gravity.y = gravity
+	var loop = game.time.events.loop(timeout, function() {
+		this.game.physics.arcade.gravity.y = gravity
 		this.words.setLimit( limit );
 		this.words.spawnWord();
 	}, this);
+
+	this.loops.push( loop );
 };
+
+Session.prototype.processInput = function( text ) {
+
+	this.words.forEach( function( item ) {
+	    if( item && item.text === text ) {
+	    	item.explode();
+	    }
+	}, this);
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
