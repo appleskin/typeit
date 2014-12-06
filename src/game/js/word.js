@@ -1,5 +1,7 @@
 Word = function( game, x, y, text ) {
-	Phaser.Sprite.call(this, game, x, y, 'asteroid');
+
+	var asteroid = 'asteroid_' + UTIL.random(0,3);
+	Phaser.Sprite.call(this, game, x, y, asteroid);
 
     this.anchor.setTo( 0.5, 0.5 );
 
@@ -26,7 +28,7 @@ Word.prototype.constructor = Word;
 Word.prototype.update = function() {
 
 	this.display_text.x = this.x - this.width/4;
-	this.display_text.y = this.y + this.height/2;
+	this.display_text.y = this.y;
 
 	this.angle += this.rotSpeed;
 

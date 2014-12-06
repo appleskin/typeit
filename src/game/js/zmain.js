@@ -20,7 +20,9 @@ var game = new Phaser.Game( CONFIG.world.x, CONFIG.world.y, Phaser.CANVAS, '', {
 
 function preload() {
     game.load.image( 'box', 'img/red_box.png' );
-    game.load.image( 'asteroid', 'img/asteroid.png' );
+    game.load.image( 'asteroid_0', 'img/asteroid_1.png' );
+    game.load.image( 'asteroid_1', 'img/asteroid_2.png' );
+    game.load.image( 'asteroid_2', 'img/asteroid_3.png' );
 };
     
 function create(){

@@ -26,13 +26,12 @@ WordFactory.prototype.constructor = WordFactory;
 
 WordFactory.prototype.getRandomWord = function() {
 	return this.word_list[ UTIL.random( 0, 15 ) ];
-	return 'cat';
 };
 
 WordFactory.prototype.getRandomSpawn = function() {
 	return {
 		x: UTIL.random( 0, CONFIG.world.x - 100 ),
-		y: UTIL.random( -200, -10 )
+		y: -100
 	};
 };
 

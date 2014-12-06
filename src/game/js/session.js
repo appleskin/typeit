@@ -56,6 +56,8 @@ Session.prototype.begin = function( timeout, limit, gravity ) {
 	}, this);
 
 	this.loops.push( loop );
+
+	document.getElementById("type").focus();
 };
 
 Session.prototype.processInput = function( text ) {
