@@ -1,4 +1,4 @@
 typeit
 ======
 
-Started with: https://github.com/gamecook/phaser-project-template
+Build process based on: https://github.com/gamecook/phaser-project-template
