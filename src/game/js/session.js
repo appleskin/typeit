@@ -100,9 +100,7 @@ Session.prototype.insertWord = function( x, y, text ) {
 };
 
 Session.prototype.removeWord = function( wid ) {
-	if( !this.host ) {
-		this.words.removeWord( wid );
-	}
+	this.words.removeWord( wid );
 };
 
 Session.prototype.begin = function( timeout, limit, gravity ) {
@@ -120,7 +118,7 @@ Session.prototype.begin = function( timeout, limit, gravity ) {
 Session.prototype.processInput = function( text ) {
 
 	this.words.forEach( function( item ) {
-	    if( item && item.wid && item.text === text ) {
+	    if( item && item.text === text ) {
 	    	SESSION.firebase.nukeWord( item.wid );
 	    }
 	}, this);
