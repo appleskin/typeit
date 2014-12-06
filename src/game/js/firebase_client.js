@@ -21,14 +21,11 @@ Firebase_client = function( player, lobbyId, host ) {
 		this.settings.set(null);
 		this.words.set(null);
 	} else {
-
-		this.words.set(null);
-
 		// If you are not host you must listen
 		// for words being added to the world
 		this.words.on("child_added", function( snapshot ) {
 			var word = snapshot.val();
-			SESSION.insertWord( word.x, word.y, word.text, word.id );
+			SESSION.insertWord( word.x, word.y, word.text, word.wid );
 		});
 	}
 
