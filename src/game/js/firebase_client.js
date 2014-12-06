@@ -29,6 +29,7 @@ Firebase_client = function( player, lobbyId, host ) {
 
 	this.words.on("child_removed", function( snapshot ) {
 		var word = snapshot.val();
+		console.log( "removing: " + word.text );
 		SESSION.removeWord( word.wid );
 	});
 

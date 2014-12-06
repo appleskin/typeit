@@ -44,7 +44,7 @@ WordFactory.prototype.insertWord = function( x, y, text, wid ) {
 WordFactory.prototype.removeWord = function( wid ) {
 	this.forEach( function( item ) {
 	    if( item && item.wid === wid ) {
-	    	item.explode();
+	    	item.explode( true );
 	    }
 	}, this);
 };

@@ -39,12 +39,14 @@ Word.prototype.update = function() {
 
 };
 
-Word.prototype.explode = function() {
+Word.prototype.explode = function( repeat ) {
 	if( CONFIG.debug.word ) {
 		console.log( "Destroying word - " + this.text );
 	}
 
-	SESSION.firebase.nukeWord( this.wid );
+	if( !repeat ) {
+		SESSION.firebase.nukeWord( this.wid );
+	}
 
 	this.display_text.destroy( true );
 	this.destroy( true );
