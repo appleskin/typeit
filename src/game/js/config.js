@@ -20,6 +20,23 @@ Config = function() {
 		lag_compensation_ms: 300
 	};
 
+	this.levels = {
+		easy: {
+			gravity: 25,
+			limit: 10,
+			delay: Phaser.Timer.SECOND*3
+		},
+		normal: {
+			gravity: 50,
+			limit: 10,
+			delay: Phaser.Timer.SECOND*2
+		},
+		hard: {
+			gravity: 100,
+			limit: 10,
+			delay: Phaser.Timer.SECOND
+		}
+	};
 
 };
 

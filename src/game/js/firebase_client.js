@@ -13,8 +13,6 @@ Firebase_client = function( player, lobbyId, host ) {
 	this.words   	= this.lobby.child("words");
 	this.settings 	= this.lobby.child("settings");
 
-
-
 	// Start a new lobby for your own game
 	if( host ) {
 		this.players.set(null);
@@ -31,7 +29,6 @@ Firebase_client = function( player, lobbyId, host ) {
 
 	this.words.on("child_removed", function( snapshot ) {
 		var word = snapshot.val();
-		console.log("nuke: " + word.text + " - " + word.wid );
 		SESSION.removeWord( word.wid );
 	});
 

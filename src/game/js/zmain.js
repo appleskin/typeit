@@ -4,10 +4,11 @@
  *
  */
 
-var CONFIG  = new Config();
-var SESSION = new Session();
-var STORAGE = new Storage();
-var UTIL    = new Util();
+var CONFIG      = new Config();
+var SESSION     = new Session();
+var STORAGE     = new Storage();
+var UTIL        = new Util();
+var WORD_LIST   = new WordList();
 
 /*
  *

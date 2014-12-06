@@ -61,7 +61,7 @@ Session.prototype.connect = function() {
 	
 	// Seed host and client
 	if( this.host ) {
-		this.firebase.setSetting( 'gravity',  100  		);
+		this.firebase.setSetting( 'gravity',  CONFIG.levels.normal.gravity );
 		this.firebase.setSetting( 'state',    'paused' 	);
 	} else {
 		this.firebase.syncSetting( 'gravity' );
@@ -69,27 +69,18 @@ Session.prototype.connect = function() {
 };
 
 Session.prototype.start = function( difficulty ) {
-	var gravity = 100;
 	if( this.host ) {
+			
+		if( !difficulty ) {
+			difficulty = 'normal';
+		}
+		this.begin( CONFIG.levels[difficulty].delay, CONFIG.levels[difficulty].limit, CONFIG.levels[difficulty].gravity );
 
 		this.firebase.setSetting( 'state',	 'playing' );
-		this.firebase.setSetting( 'gravity',  gravity  );
+		this.firebase.setSetting( 'gravity',  CONFIG.levels[difficulty].gravity  );
 
-		switch( difficulty ) {
-			case 'easy':
-				this.begin( Phaser.Timer.SECOND*3, 10, gravity );
-			    break;
-			case 'normal':
-				gravity *= 2;
-				this.begin( Phaser.Timer.SECOND, 15, gravity );
-			    break;
-			case 'hard':
-				gravity *= 3;
-				this.begin( Phaser.Timer.SECOND/2, 10, gravity );
-			    break;
-			default:
-				this.begin( Phaser.Timer.SECOND, 15, gravity );
-		};
+	} else {
+		this.firebase.syncSetting( 'gravity' );
 	}
 };
 

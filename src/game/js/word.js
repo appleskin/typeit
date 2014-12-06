@@ -46,9 +46,6 @@ Word.prototype.explode = function() {
 		console.log( "Destroying word - " + this.text );
 	}
 
-	var id = this.wid;
-	console.log( "exploding: " + id );
-
 	this.display_text.destroy( true );
 	this.destroy( true );
 };

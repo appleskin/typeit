@@ -3,36 +3,18 @@ WordFactory = function( game ) {
 	this.setLimit( 10 );
 
 	this.currentId = 0;
-
-	this.word_list = [
-		"the",
-		"cat",
-		"hat",
-		"ball",
-		"time",
-		"hunter",
-		"kim",
-		"happy",
-		"sad",
-		"mad",
-		"wrong",
-		"right",
-		"black",
-		"white",
-		"five"
-	];
 };
 
 WordFactory.prototype = Object.create(Phaser.Group.prototype);
 WordFactory.prototype.constructor = WordFactory;
 
 WordFactory.prototype.getRandomWord = function() {
-	return this.word_list[ UTIL.random( 0, 15 ) ];
+	return WORD_LIST.words[ UTIL.random( 0, 999 ) ];
 };
 
 WordFactory.prototype.getRandomSpawn = function() {
 	return {
-		x: UTIL.random( 0, CONFIG.world.x - 100 ),
+		x: UTIL.random( 50, CONFIG.world.x - 100 ),
 		y: -100
 	};
 };
