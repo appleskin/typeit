@@ -3,6 +3,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -16,39 +17,56 @@ module.exports = function (grunt) {
         },
         concat: {
             js: {
-                src: [  
-                        'src/lib/**/*.js',
-                        'src/game/**/*.js'
-                     ],
+                src: 
+                [  
+                    'src/lib/**/*.js',
+                    'src/game/**/*.js'
+                ],
                 dest: 'dist/js/<%= pkg.name %>.js'
             },
             css: {
-                src: [
-                        'src/game/**/*.css'
+                src: 
+                [
+                    'src/game/**/*.css'
                 ],
                 dest: 'dist/css/<%= pkg.name %>.css'
             },
             html: {
-                src: [
-                        'src/index.html'
+                src: 
+                [
+                    'src/index.html'
                 ],
                 dest: 'dist/index.html'
+            }
+        },
+        copy: {
+            html: {
+                src: 'src/index.html',
+                dest: 'dist/index.html'
+            },
+            img: {
+                src: 'img/*.png',
+                dest: 'dist/'
             }
         },
         watch: {
             js: {
                 files: 'src/**/*.js',
-                tasks: ['concat'] 
+                tasks: ['concat:js'] 
             },
             css: {
                 files: 'src/**/*.css',
-                tasks: ['concat']
+                tasks: ['concat:css']
             },
             html: {
                 files: 'src/index.html',
-                tasks: ['concat']
+                tasks: ['copy:html']
             }
-            
+            // ,
+            // img: {
+            //     src: 'img/*.png',
+            //     tasks: ['copy:img']
+            // }
         },
         open: {
             dev: {
@@ -57,6 +75,6 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['concat', 'connect', 'open', 'watch']);
+    grunt.registerTask('default', ['concat', 'copy', 'connect', 'open', 'watch']);
 
 }
