@@ -75,6 +75,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['concat', 'copy', 'connect', 'open', 'watch']);
+    grunt.registerTask('default', ['concat', 'copy']);
+    grunt.registerTask('serve', ['concat', 'copy', 'connect', 'open', 'watch']);
 
-}
+};
