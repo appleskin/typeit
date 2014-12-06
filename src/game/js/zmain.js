@@ -1,15 +1,13 @@
 /**
  *
- *     TYPE IT
+ *     TYPE IT - LIKE A BOSS
  *
  */
 
- 
-
 var CONFIG  = new Config();
-var UTIL    = new Util();
-
 var SESSION = new Session();
+var STORAGE = new Storage();
+var UTIL    = new Util();
 
 /*
  *
@@ -27,9 +25,7 @@ function preload() {
     
 function create(){
     SESSION.init( game );
-    SESSION.addPlayer( new Player( game, (CONFIG.world.x/2)-25, CONFIG.world.y-25 ) );
-
-    SESSION.start( 'normal' );
+    SESSION.connect();
 };
 
 function update() {

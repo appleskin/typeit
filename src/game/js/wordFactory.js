@@ -35,6 +35,10 @@ WordFactory.prototype.getRandomSpawn = function() {
 	};
 };
 
+WordFactory.prototype.insertWord = function( x, y, text ) {
+	this.add( new Word( this.game, x, y, text ) );
+};
+
 WordFactory.prototype.spawnWord = function() {
 	var count = this.length+1;
 	if( this.length < this.limit ) {
@@ -44,9 +48,17 @@ WordFactory.prototype.spawnWord = function() {
 		}
 
 		var spawn_pos = this.getRandomSpawn();
-
 		var target = new Word( this.game, spawn_pos.x, spawn_pos.y, this.getRandomWord() );
-		this.add( target );
+		
+		if( SESSION.host ) {
+			SESSION.firebase.insertWord( target.x, target.y, target.text );
+		}
+
+		var thisFactory = this;
+		// naive lag compensation
+		setTimeout( function() {
+			thisFactory.add( target );
+		}, CONFIG.app.lag_compensation_ms );
 
 	} else {
 		if( CONFIG.debug.word ) {

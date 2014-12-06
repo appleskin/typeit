@@ -15,6 +15,12 @@ Config = function() {
 		input: true
 	};
 
+	this.app = {
+		firebase: 'https://typeit-koding.firebaseio.com/',
+		lag_compensation_ms: 300
+	};
+
+
 };
 
 Config.prototype.constructor = Config;

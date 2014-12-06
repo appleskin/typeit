@@ -13,10 +13,10 @@ Input.prototype.update = function() {
 		if( CONFIG.debug.input ) {
 			console.log( "Entered " + type.value );
 		}
-
 		SESSION.processInput( type.value );
-
 		type.value = null;
+		type.focus();
+	} else if( this.enter.isDown ) {
+		type.focus();
 	}
 };
-

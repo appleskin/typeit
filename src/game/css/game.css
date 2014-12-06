@@ -14,5 +14,12 @@ input#type {
 	text-align: center;
 	margin: auto;
 	width: 80%;
-	margin-top: 10px;
+	margin-top: 5px;
+}
+
+button#start {
+    text-align: center;
+    margin: auto;
+    width: 20%;
+    margin-top: 5px;
 }

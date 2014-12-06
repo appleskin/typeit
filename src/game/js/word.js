@@ -35,6 +35,7 @@ Word.prototype.update = function() {
 	if( this.y > CONFIG.world.y + 100 ) {
 		this.explode();
 	}
+
 };
 
 Word.prototype.explode = function() {
