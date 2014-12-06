@@ -6,8 +6,15 @@ Word = function( game, x, y, text ) {
     game.physics.enable( [ this ], Phaser.Physics.ARCADE);
 
     this.text = text;
-    this.style = { font: "18px Arial", fill: "#ffffff", align: "center" };
+    this.style = { font: "18px Arial", fill: "#ffffff", shadowColor:"#000000", shadowOffsetX:"2", shadowOffsetY:"2", shadowBlur:"1", align: "center" };
     this.display_text = new Phaser.Text( game, 0, 0, this.text, this.style );
+
+    this.rotSpeed = UTIL.random(1,5);
+    if( UTIL.flip() ) {
+    	this.rotSpeed *= -1;
+    }
+
+    this.scale.setTo( UTIL.random(4,10)/10, UTIL.random(6,10)/10 );
     
     game.add.existing( this.display_text );
     game.add.existing( this );
@@ -18,8 +25,10 @@ Word.prototype.constructor = Word;
 
 Word.prototype.update = function() {
 
-	this.display_text.x = this.x;
-	this.display_text.y = this.y - 12;
+	this.display_text.x = this.x - this.width/4;
+	this.display_text.y = this.y + this.height/2;
+
+	this.angle += this.rotSpeed;
 
 	if( this.y > CONFIG.world.y + 100 ) {
 		this.explode();
