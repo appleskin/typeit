@@ -30,5 +30,6 @@ Player.prototype.getPlayerId = function() {
 	} else {
 		var new_id = this.generatePlayerId();
 		STORAGE.setItem( 'pid', new_id, false );
+		return new_id;
 	}
 };
