@@ -2,6 +2,8 @@ WordFactory = function( game ) {
 	Phaser.Group.call(this, game);
 	this.setLimit( 10 );
 
+	this.currentId = 0;
+
 	this.word_list = [
 		"the",
 		"cat",
@@ -35,8 +37,16 @@ WordFactory.prototype.getRandomSpawn = function() {
 	};
 };
 
-WordFactory.prototype.insertWord = function( x, y, text ) {
-	this.add( new Word( this.game, x, y, text ) );
+WordFactory.prototype.insertWord = function( x, y, text, wid ) {
+	this.add( new Word( this.game, x, y, text, wid ) );
+};
+
+WordFactory.prototype.removeWord = function( wid ) {
+	this.forEach( function( item ) {
+	    if( item && item.wid === wid ) {
+	    	item.explode();
+	    }
+	}, this);
 };
 
 WordFactory.prototype.spawnWord = function() {
@@ -48,10 +58,10 @@ WordFactory.prototype.spawnWord = function() {
 		}
 
 		var spawn_pos = this.getRandomSpawn();
-		var target = new Word( this.game, spawn_pos.x, spawn_pos.y, this.getRandomWord() );
+		var target = new Word( this.game, spawn_pos.x, spawn_pos.y, this.getRandomWord(), this.currentId++ );
 		
 		if( SESSION.host ) {
-			SESSION.firebase.insertWord( target.x, target.y, target.text );
+			SESSION.firebase.insertWord( target.x, target.y, target.text, target.wid );
 		}
 
 		var thisFactory = this;

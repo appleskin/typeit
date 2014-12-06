@@ -23,7 +23,12 @@ Firebase_client = function( player, lobbyId, host ) {
 		// for words being added to the world
 		this.words.on("child_added", function( snapshot ) {
 			var word = snapshot.val();
-			SESSION.insertWord( word.x, word.y, word.text );
+			SESSION.insertWord( word.x, word.y, word.text, word.id );
+		});
+
+		this.words.on("child_removed", function( snapshot ) {
+			var word = snapshot.val();
+			SESSION.removeWord( word.wid );
 		});
 	}
 
@@ -36,12 +41,17 @@ Firebase_client = function( player, lobbyId, host ) {
 
 Firebase_client.prototype.constructor = Firebase_client;
 
-Firebase_client.prototype.insertWord = function( x, y, text ) {
-	this.words.push({
+Firebase_client.prototype.insertWord = function( x, y, text, wid ) {
+	this.words.child(wid).set({
 		x: x,
 		y: y,
-		text: text
+		text: text,
+		wid: wid
 	});
+};
+
+Firebase_client.prototype.nukeWord = function( wid ) {
+	this.words.child(wid).set(null);
 };
 
 Firebase_client.prototype.setSetting = function( key, value ) {

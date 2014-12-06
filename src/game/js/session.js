@@ -99,6 +99,12 @@ Session.prototype.insertWord = function( x, y, text ) {
 	}
 };
 
+Session.prototype.removeWord = function( wid ) {
+	if( !this.host ) {
+		this.words.removeWord( wid );
+	}
+};
+
 Session.prototype.begin = function( timeout, limit, gravity ) {
 	var loop = game.time.events.loop(timeout, function() {
 		this.game.physics.arcade.gravity.y = gravity

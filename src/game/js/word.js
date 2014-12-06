@@ -1,4 +1,4 @@
-Word = function( game, x, y, text ) {
+Word = function( game, x, y, text, wid ) {
 
 	var asteroid = 'asteroid_' + UTIL.random(0,3);
 	Phaser.Sprite.call(this, game, x, y, asteroid);
@@ -7,6 +7,7 @@ Word = function( game, x, y, text ) {
 
     game.physics.enable( [ this ], Phaser.Physics.ARCADE);
 
+    this.wid = wid;
     this.text = text;
     this.style = { font: "18px Arial", fill: "#ffffff", shadowColor:"#000000", shadowOffsetX:"2", shadowOffsetY:"2", shadowBlur:"1", align: "center" };
     this.display_text = new Phaser.Text( game, 0, 0, this.text, this.style );
@@ -42,6 +43,11 @@ Word.prototype.explode = function() {
 	if( CONFIG.debug.word ) {
 		console.log( "Destroying word - " + this.text );
 	}
+
+	if( SESSION.host ) {
+		SESSION.firebase.nukeWord( this.wid );
+	}
+
 	this.display_text.destroy( true );
 	this.destroy( true );
 };
