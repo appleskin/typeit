@@ -2,7 +2,7 @@
 
 Play it
 ---
-http://appleskin.koding.io
+http://typeit.appleskin.koding.io
 
 Libs, Reasources, Repos, etc.
 ---
