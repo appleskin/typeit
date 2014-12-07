@@ -49,21 +49,20 @@ Missile.prototype.update = function() {
     	this.display_text.y = this.y - this.height/4;
     }
 
-	if( SESSION.host ) {
-		if( this.x > CONFIG.world.x + 200 || this.x < -200 ) {
+	if( this.x > CONFIG.world.x + 200 || this.x < -200 ) {
+		if( SESSION.host ) {
 			SESSION.firebase.nukeMissile( this.mid );
 		}
-	}
 
-	var player_keys = Object.keys(SESSION.players);
-	if( this.ownerId === STORAGE.getItem('pid') ) {
-		// YOU HIT ENEMY
-		SESSION.players[player_keys[1]].hitBy( player_keys[0] );
-	} else {
-		// ENEMY HIT YOU
-		SESSION.players[player_keys[0]].hitBy( player_keys[1] );
+		var player_keys = Object.keys(SESSION.players);
+		if( this.ownerId === STORAGE.getItem('pid') ) {
+			// YOU HIT ENEMY
+			SESSION.players[player_keys[1]].hitBy( player_keys[0] );
+		} else {
+			// ENEMY HIT YOU
+			SESSION.players[player_keys[0]].hitBy( player_keys[1] );
+		}
 	}
-
 };
 
 Missile.prototype.launch = function() {
