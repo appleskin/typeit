@@ -5,6 +5,13 @@
     <meta charset="utf-8" />
     <title>Type It - Real good</title>
     <link rel="stylesheet" href="css/game.css" type="text/css" />
+
+	<script>
+		if( window.location.href.indexOf('mode') === -1 ) {
+			window.location.href = window.location.origin + "/welcome.html";
+		}
+	</script>
+
     <script src="https://cdn.firebase.com/js/client/2.0.6/firebase.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="vex/vex.combined.min.js"></script>
