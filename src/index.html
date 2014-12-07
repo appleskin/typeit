@@ -3,17 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <title>Type It - Real good</title>
-    <link rel="stylesheet" href="css/game.css" type="text/css" />
-
+   
 	<script>
 		if( window.location.href.indexOf('mode') === -1 ) {
 			window.location.href = window.location.origin + "/welcome.html";
 		}
 	</script>
 
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.0.6/firebase.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="vex/vex.combined.min.js"></script>
+    <link rel="stylesheet" href="css/game.css" type="text/css" />
     <script>
     	vex.defaultOptions.className = 'vex-theme-os';
     	vex.defaultOptions.showCloseButton = false;
@@ -23,10 +25,10 @@
     <script src="js/game.js"></script>
 </head>
 	<body>
-		<span id="invite-friends"> Invite Friends </span>
-		<input id="lobby" onfocus="this.select()" onclick="this.select()" type="text"/>
-		<br>
-		<button id="start"></button>
+		<div id="welcome" class="btn btn-danger"> TYPE IT </div>
+		<div id="invite" class="btn btn-primary"> Invite </div>
+		<div id="start" class="btn btn-success"> Start Match </div>
+
 		<div id="game"></div>
 	</body>
 </html>

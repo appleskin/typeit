@@ -2,17 +2,6 @@ Firebase_client = function( player, lobbyId, host ) {
 	this.lobbyId 	= lobbyId;
 	this.player 	= player;
 	this.host 		= host;
-
-    if( !host ) {
-    	document.getElementById("lobby").value = "In lobby: " + lobbyId;
-    	document.getElementById("lobby").disabled = "disabled";
-    } else {
-    	if( SESSION.mode === 'deathmatch' ) {
-    		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId + '&mode=deathmatch';
-    	} else {
-    		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId + '&mode=classic';
-    	}
-    }
 };
 
 Firebase_client.prototype.init = function() {

@@ -17,6 +17,7 @@ Session.prototype.init = function( game ) {
 	}
 
 	this.game = game;
+	this.started = false;
 	this.auto_started = false;
 
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -38,13 +39,18 @@ Session.prototype.init = function( game ) {
 
     var thisSession = this;
     var start = document.getElementById('start');
-    if( this.mode === 'deathmatch' ) {
-    	start.innerHTML = 'Start Deathmatch [2 Players]';
-	} else {
-		start.innerHTML = 'Start Classic [1-5 Players]';
-	}
     start.onclick = function() {
     	thisSession.start();
+    };
+
+    var invite = document.getElementById('invite');
+    invite.onclick = function() {
+    	thisSession.showInvite('Invite');
+    };
+
+    var home = document.getElementById('welcome');
+    home.onclick = function() {
+    	thisSession.goHome();
     };
 
     document.body.appendChild( input );
@@ -52,17 +58,31 @@ Session.prototype.init = function( game ) {
     if( UTIL.getUrlParam('lobbyId' ) ) {
 		vex.dialog.alert('Joining Session');
 	} else {
-		vex.dialog.alert('Session Created');
+		this.showInvite('Session Reset');
 	}
+};
+
+Session.prototype.showInvite = function( message ) {
+	var join_url = window.location.href + "&lobbyId=" + STORAGE.getItem('pid');
+	var content = $('<div>Email this URL to a friend to play with them</div><input onclick="this.select()" style="width:100%;" value="' + join_url + '">');
+
+	vex.dialog.open({
+		message: message,
+		afterOpen: function($vexContent) {
+			return content.insertAfter( $vexContent.find('.vex-dialog-message') );
+		},
+		callback: function() {
+
+		}
+	});
 };
 
 Session.prototype.update = function() {
 	this.input.update();
 
-
-	if( !this.auto_started && document.getElementById('start').style.display !== 'none' && Object.keys( this.players ).length === 2 ) {
-		this.startDeathmatch();
+	if( !this.auto_started && !this.started && document.getElementById('start').style.display !== 'none' && Object.keys( this.players ).length === 2 ) {
 		this.auto_started = true;
+		this.startDeathmatch();
 	}
 };
 
@@ -95,6 +115,16 @@ Session.prototype.drawHud = function() {
 			}
 		} catch( ex ) { console.error( ex ); }
 	}
+
+	if( !this.started && this.mode === 'deathmatch' ) {
+		var x = CONFIG.world.x/2 - 140;
+		var text = "Waiting for someone to join...";
+		if( !this.host ) {
+			text = "Waiting for host to start the game...";
+			x -= 20;
+		}
+		game.debug.text( text, x, CONFIG.world.y/2 - 50 );
+	}
 };
 
 Session.prototype.addPlayer = function( player ) {
@@ -109,7 +139,6 @@ Session.prototype.connect = function() {
 	if( this.lobbyId ) {
 		this.host = false;
 		document.getElementById("start").style.display = "none";
-		document.getElementById("invite-friends").innerHTML = "";
 	} else {
 		this.host = true;
 		this.lobbyId = player.pid;
@@ -121,6 +150,10 @@ Session.prototype.connect = function() {
 	this.firebase.logIn.then( function() {
 		
 		thisSession.firebase.init();
+
+		if( !thisSession.host ) {
+			document.getElementById('invite').style.display = 'none';
+		}
 
 		// Enable game type events
 		if( thisSession.mode === 'deathmatch') {
@@ -146,7 +179,7 @@ Session.prototype.start = function() {
 Session.prototype.startClassic = function( difficulty ) {
 	var thisSession = this;
 	vex.dialog.confirm({
-		message: 'Start CLASSIC with ' + Object.keys(this.players).length + ' players?',
+		message: 'Begin with ' + Object.keys(this.players).length + ' player(s)?',
 		callback: function( result ) {
 			if( result ) {
 				if( thisSession.host ) {
@@ -160,6 +193,7 @@ Session.prototype.startClassic = function( difficulty ) {
 					thisSession.firebase.setSetting( 'state',	 'playing' );
 					thisSession.firebase.setSetting( 'gravity',  CONFIG.levels[difficulty].gravity  );
 				}
+				thisSession.started = true;
 			}
 		}
 	});
@@ -188,18 +222,16 @@ Session.prototype.startDeathmatch = function() {
 
 	var thisSession = this;
 	vex.dialog.confirm({
-		message: 'Start DEATHMATCH with ' + Object.keys(this.players).length + ' players?',
+		message: 'Someone joined you. Get ready!',
 		callback: function( result ) {
-			if( result ) {	
-				// We have two players in the lobby
-				// "Now...Shall we begin?" - https://www.youtube.com/watch?v=RuX5nw0rzVc
-				document.getElementById('start').style.display = "none";
-				if( thisSession.host ) {
-					thisSession.missiles.spawnMissileBays();
-				}
-			} else {
-				// Don't Start
+			// We have two players in the lobby
+			// "Now...Shall we begin?" - https://www.youtube.com/watch?v=RuX5nw0rzVc
+			document.getElementById('start').style.display = "none";
+			document.getElementById('invite').style.display = "none";
+			if( thisSession.host ) {
+				thisSession.missiles.spawnMissileBays();
 			}
+			thisSession.started = true;
 		}
 	});
 
@@ -327,6 +359,7 @@ Session.prototype.removeWord = function( wid ) {
 
 Session.prototype.insertMissile = function( missile ) {
 	if( !this.host ) {
+		this.started = true;
 		this.missiles.insertMissile( missile );
 	}
 };

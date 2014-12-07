@@ -1,7 +1,7 @@
 #home body {
     background: #ddd;
     margin: 0;
-    margin-top: 5px;
+    margin-top: 25px;
     padding: 0;
     text-align: center;
 }
@@ -14,7 +14,7 @@
 #home input#type, #home input#lobby {
 	text-align: center;
 	margin: auto;
-	width: 600px;
+	width: 800px;
 	margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -27,16 +27,25 @@
     width: 500px;
 }
 
-#home button#start {
+#home div#start, #home div#invite, #home div#welcome, #home div#logo {
     text-align: center;
     margin: auto;
-    width: 200px;
+    width: 150px;
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
+#home div#invite {
+    margin-left: 300px;
+}
+
+#home div#welcome {
+    font-size: 200%;
+    text-shadow: 2px 2px 2px red;
+    font-weight: bold;
+}
 
 html#welcome {
     height: 100%;
