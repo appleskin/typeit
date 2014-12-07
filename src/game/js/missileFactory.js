@@ -7,7 +7,11 @@ MissileFactory.prototype = Object.create(Phaser.Group.prototype);
 MissileFactory.prototype.constructor = MissileFactory;
 
 MissileFactory.prototype.insertMissile = function( missile ) {
-	this.add( new Missile( this.game, missile.x + 75, missile.y, missile.text, missile.reverse, missile.mid, missile.ownerId ) );
+	var tempX = missile.x;
+	if( missile.reverse ) {
+		tempX += 75;
+	}
+	this.add( new Missile( this.game, tempX, missile.y, missile.text, missile.reverse, missile.mid, missile.ownerId ) );
 };
 
 MissileFactory.prototype.removeMissile = function( mid ) {
@@ -16,6 +20,17 @@ MissileFactory.prototype.removeMissile = function( mid ) {
 	    	item.explode();
 	    }
 	}, this);
+};
+
+MissileFactory.prototype.reloadMissileBay = function( missile ) {
+	var new_missile = new Missile( this.game, missile.x, missile.y, missile.reverse, this.currentId++, missile.owner );
+	if( missile.ownerId === STORAGE.getItem('pid') ) {
+		new_missile.reverse = false;
+		new_missile.x = 75;
+	} else {
+		new_missile.reverse = true;
+		new_missile.x = CONFIG.world.x - 75;
+	}
 };
 
 MissileFactory.prototype.spawnMissileBays = function() {

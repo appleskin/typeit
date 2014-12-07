@@ -169,11 +169,11 @@ Firebase_client.prototype.nukeMissile = function( missile ) {
 			if( SESSION.host ) {
 				if( missile.ownerId === STORAGE.getItem('pid') ) {
 					// Make missile for host - left side
-					var reload = new Missile( SESSION.game, 75, missile.y, UTIL.getRandomWord(), SESSION.missiles.currentId++, missile.ownerId );
+					var reload = SESSION.missiles.reloadMissileBay( missile );
 					SESSION.firebase.insertMissile( reload );
 				} else {
 					// Make missile fo client - right side
-					var reload = new Missile( SESSION.game, CONFIG.world.x - 75, missile.y, UTIL.getRandomWord(), SESSION.missiles.currentId++, missile.ownerId );
+					var reload = SESSION.missiles.reloadMissileBay( missile );
 					SESSION.firebase.insertMissile( reload );
 				}
 			}
