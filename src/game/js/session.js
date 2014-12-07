@@ -55,14 +55,16 @@ Session.prototype.update = function() {
 };
 
 Session.prototype.drawHud = function() {
+	var player_keys = Object.keys( this.players );
+	
 	try {
-		var player_keys = Object.keys( this.players );
-
 		var p1 = this.players[player_keys[0]];
-		var p2 = this.players[player_keys[1]];
+		game.debug.text('Your Health: ' + p1.health, 10, 20);
+	} catch( ex ) { /* nom nom nom */ }
 
-		game.debug.text('Health: ' + p1.health, 10, 20);
-		game.debug.text('Health: ' + p1.health, 10, CONFIG.world.x - 30);
+	try {
+		var p2 = this.players[player_keys[1]];
+		game.debug.text('Enemy Health: ' + p2.health, CONFIG.world.x - 150, 20);
 	} catch( ex ) { /* nom nom nom */ }
 };
 
