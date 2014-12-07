@@ -18,3 +18,14 @@ Util.prototype.getUrlParam = function( name ) {
 Util.prototype.rgbToHex = function(r, g, b) {
     return "0x" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 };
+
+Util.prototype.getRandomWord = function() {
+	return WORD_LIST.words[ UTIL.random( 0, 999 ) ];
+};
+
+Util.prototype.getRandomSpawn = function() {
+	return {
+		x: UTIL.random( 50, CONFIG.world.x - 100 ),
+		y: -100
+	};
+};

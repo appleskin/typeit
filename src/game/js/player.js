@@ -23,8 +23,10 @@ Player = function( game, x, y, score, pid ) {
 
     this.tint = this.getNewPlayerTint();
 
-    game.add.existing( this );
-    game.add.existing( this.display_text );
+    if( SESSION.mode !== 'deathmatch' ) {
+    	game.add.existing( this.display_text );
+	}
+	game.add.existing( this );
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);

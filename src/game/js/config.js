@@ -1,8 +1,8 @@
 Config = function() {
 
 	this.world = {
-		x: 600,
-		y: 700
+		x: UTIL.getUrlParam('mode') === 'deathmatch' ? 800 : 600,
+		y: UTIL.getUrlParam('mode') === 'deathmatch' ? 600 : 700
 	};
 
 	this.gravity = {
@@ -17,8 +17,9 @@ Config = function() {
 
 	this.app = {
 		firebase: 'https://typeit-koding.firebaseio.com/',
-		lag_compensation_ms: 300,
-		score_to_win: 15
+		lag_compensation_ms: 200,
+		score_to_win: 15,
+		missile_velocity: 50
 	};
 
 	this.levels = {

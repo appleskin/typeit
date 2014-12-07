@@ -56,17 +56,22 @@ Firebase_client.prototype.enableClassicEvents = function() {
 };
 
 Firebase_client.prototype.enableDeathmatchEvents = function() {
-	// if( !SESSION.host ) {
-	// 	this.words.on("child_added", function( snapshot, prevName ) {
-	// 		var word = snapshot.val();
-	// 		SESSION.insertWord( word.x, word.y, word.text, word.wid );
-	// 	});
-	// }
+	if( !SESSION.host ) {
+		this.missiles.on("child_added", function( snapshot, prevName ) {
+			var missile = snapshot.val();
+			SESSION.insertMissile( missile );
+		});
+	}
 
-	// this.words.on("child_removed", function( snapshot ) {
-	// 	var word = snapshot.val();
-	// 	SESSION.removeWord( word.wid );
-	// });
+	this.missiles.on("child_removed", function( snapshot ) {
+		var missile = snapshot.val();
+		SESSION.removeMissile( missile.mid );
+	});
+
+	this.missiles.on("child_changed", function( snapshot ) {
+		var missile = snapshot.val();
+		SESSION.launchMissile( missile );
+	});
 
 	this.players.on("child_changed", function( snapshot, prevName ) {
 		SESSION.addOrUpdateNetworkPlayer( snapshot.val() );
@@ -105,8 +110,61 @@ Firebase_client.prototype.nukeWord = function( wid ) {
 	}
 };
 
+Firebase_client.prototype.insertMissile = function( missile ) {
+
+	function flop( val ) {
+		if( val < CONFIG.world.x / 2 ) {
+			return CONFIG.world.x - 180;
+		} else {
+			return 75;
+		}
+	};
+
+	if( SESSION.host ) {
+		this.missiles.child(missile.mid).set({
+			x: flop(missile.x),
+			y: missile.y,
+			text: missile.text,
+			reverse: !missile.reverse, // flip flop son!
+			mid: missile.mid
+		});
+	}
+};
+
+Firebase_client.prototype.launchMissile = function( missile ) {
+	// Host or client
+	this.missiles.child(missile.mid).update({
+		launched: true
+	});
+};
+
+Firebase_client.prototype.nukeMissile = function( mid ) {
+	try {
+		this.missiles.child(mid).set(null);
+	} catch( ex ) {
+		console.error( ex );
+	}
+};
+
 Firebase_client.prototype.setSetting = function( key, value ) {
 	this.settings.child(key).set({
 		value:value
 	});
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

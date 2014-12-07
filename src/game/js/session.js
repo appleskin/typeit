@@ -19,6 +19,7 @@ Session.prototype.init = function( game ) {
     }
 
     this.words = new WordFactory( this.game );
+    this.missiles = new MissileFactory( this.game );
     this.input = new Input( game );
 
     var input = document.createElement('input');
@@ -99,8 +100,6 @@ Session.prototype.startClassic = function( difficulty ) {
 
 		this.firebase.setSetting( 'state',	 'playing' );
 		this.firebase.setSetting( 'gravity',  CONFIG.levels[difficulty].gravity  );
-	} else {
-		this.game.physics.arcade.gravity.y = CONFIG.levels[difficulty].gravity;
 	}
 };
 
@@ -125,30 +124,14 @@ Session.prototype.startDeathmatch = function() {
 	}
 
 	// We have two players in the lobby
-	// Shall we begin?
-
-	// Step 1
-	// Build and place list of missles on left - me
-
-
-	// Step 2
-	// Build and place list of missles on right - them
-
-	this.beginDeathmatch();
-};
-
-Session.prototype.beginDeathmatch = function() {
-	alert( 'begin deathmatch' );
-};
-
-Session.prototype.insertWord = function( x, y, text, wid ) {
-	if( !this.host ) {
-		this.words.insertWord( x, y, text, wid );
+	// "Now...Shall we begin?" - https://www.youtube.com/watch?v=RuX5nw0rzVc
+	if( this.host ) {
+		this.missiles.spawnMissileBays();
 	}
 };
 
-Session.prototype.removeWord = function( wid ) {
-	this.words.removeWord( wid );
+Session.prototype.beginDeathmatch = function() {
+	
 };
 
 Session.prototype.addPoints = function( value ) {
@@ -187,14 +170,55 @@ Session.prototype.win = function( player ) {
 };
 
 Session.prototype.processInput = function( text ) {
+	if( this.mode === 'deathmatch' ) {
+		this.missiles.forEach( function( item ) {
+			var text_matches = item.text === text;
+			var launched = item.launched;
+			var enemy_missile = item.reverse;
 
-	this.words.forEach( function( item ) {
-	    if( item && item.text === text ) {
-	    	SESSION.addPoints( 1 );
-	    	SESSION.firebase.nukeWord( item.wid );
-	    }
-	}, this);
+			// check enemy flying missiles
+		    if( item && text_matches && launched && enemy_missile ) {
+		    	SESSION.firebase.nukeMissile( item.mid );
+		    } else if( item && text_matches ) {
+		    	this.firebase.launchMissile( item );
+		    }
+		}, this );
+	} else {
+		this.words.forEach( function( item ) {
+		    if( item && item.text === text ) {
+		    	SESSION.addPoints( 1 );
+		    	SESSION.firebase.nukeWord( item.wid );
+		    }
+		}, this );
+	}
+};
 
+Session.prototype.insertWord = function( x, y, text, wid ) {
+	if( !this.host ) {
+		this.words.insertWord( x, y, text, wid );
+	}
+};
+
+Session.prototype.removeWord = function( wid ) {
+	this.words.removeWord( wid );
+};
+
+Session.prototype.insertMissile = function( missile ) {
+	if( !this.host ) {
+		this.missiles.insertMissile( missile );
+	}
+};
+
+Session.prototype.launchMissile = function( missile ) {
+	this.missiles.forEach( function( item ) {
+		if( item && item.mid === missile.mid ) {
+			item.launch();
+		}
+	});
+};
+
+Session.prototype.removeMissile = function( mid ) {
+	this.missiles.removeMissile( mid );
 };
 
 

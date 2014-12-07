@@ -8,17 +8,6 @@ WordFactory = function( game ) {
 WordFactory.prototype = Object.create(Phaser.Group.prototype);
 WordFactory.prototype.constructor = WordFactory;
 
-WordFactory.prototype.getRandomWord = function() {
-	return WORD_LIST.words[ UTIL.random( 0, 999 ) ];
-};
-
-WordFactory.prototype.getRandomSpawn = function() {
-	return {
-		x: UTIL.random( 50, CONFIG.world.x - 100 ),
-		y: -100
-	};
-};
-
 WordFactory.prototype.insertWord = function( x, y, text, wid ) {
 	this.add( new Word( this.game, x, y, text, wid ) );
 };
@@ -39,8 +28,8 @@ WordFactory.prototype.spawnWord = function() {
 			console.log( "Spawning Word - " + count + " active of " + this.limit );
 		}
 
-		var spawn_pos = this.getRandomSpawn();
-		var target = new Word( this.game, spawn_pos.x, spawn_pos.y, this.getRandomWord(), this.currentId++ );
+		var spawn_pos = UTIL.getRandomSpawn();
+		var target = new Word( this.game, spawn_pos.x, spawn_pos.y, UTIL.getRandomWord(), this.currentId++ );
 		
 		SESSION.firebase.insertWord( target.x, target.y, target.text, target.wid );
 
