@@ -22,11 +22,11 @@ MissileFactory.prototype.removeMissile = function( mid ) {
 	}, this);
 };
 
-MissileFactory.prototype.reloadMissileBay = function( missile ) {
+MissileFactory.prototype.reloadMissileBay = function( missile_y, missile_owner ) {
 	var new_id = this.currentId++;
-	var new_missile = new Missile( this.game, 75, missile.y, UTIL.getRandomWord(), false, new_id, missile.ownerId );
-	if( missile.ownerId !== STORAGE.getItem('pid') ) {
-		new_missile = new Missile( this.game, CONFIG.world.x - 75, UTIL.getRandomWord(), true, new_id, missile.ownerId );
+	var new_missile = new Missile( this.game, 75, missile_y, UTIL.getRandomWord(), false, new_id, missile_owner );
+	if( missile_owner !== STORAGE.getItem('pid') ) {
+		new_missile = new Missile( this.game, CONFIG.world.x - 75, UTIL.getRandomWord(), true, new_id, missile_owner );
 	}
 	return new_missile;
 };

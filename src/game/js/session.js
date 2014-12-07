@@ -376,7 +376,7 @@ Session.prototype.launchMissile = function( missile ) {
 
 Session.prototype.removeMissile = function( missile ) {
 	this.missiles.removeMissile( missile.mid );
-
+	
 	var thisSession = this;
 	if( this.host ) {
 		// RELOAD - New missile reslots 2 seconds later
@@ -384,14 +384,15 @@ Session.prototype.removeMissile = function( missile ) {
 			var reload = null;
 			if( missile.ownerId === STORAGE.getItem('pid') ) {
 				// Make missile for host - left side
-				reload = SESSION.missiles.reloadMissileBay( missile );
+				reload = SESSION.missiles.reloadMissileBay( missile.y, missile.ownerId );
 				SESSION.firebase.insertMissile( reload );
 			} else {
 				// Make missile fo client - right side
-				reload = SESSION.missiles.reloadMissileBay( missile );
+				reload = SESSION.missiles.reloadMissileBay( missile.y, missile.ownerId );
 				SESSION.firebase.insertMissile( reload );
 			}
 			thisSession.missiles.add( reload );
+
 		}, 2000 );
 	}
 };
