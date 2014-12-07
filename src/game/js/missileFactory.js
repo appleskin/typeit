@@ -26,7 +26,7 @@ MissileFactory.prototype.reloadMissileBay = function( missile ) {
 	var new_id = this.currentId++;
 	var new_missile = new Missile( this.game, 75, missile.y, UTIL.getRandomWord(), false, new_id, missile.ownerId );
 	if( missile.ownerId !== STORAGE.getItem('pid') ) {
-		new_missile = new Missile( this.game, CONFIG.word.x - 75, UTIL.getRandomWord(), true, new_id, missile.ownerId );
+		new_missile = new Missile( this.game, CONFIG.world.x - 75, UTIL.getRandomWord(), true, new_id, missile.ownerId );
 	}
 	return new_missile;
 };
