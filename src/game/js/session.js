@@ -66,6 +66,7 @@ Session.prototype.connect = function() {
 	if( this.lobbyId ) {
 		this.host = false;
 		document.getElementById("start").style.display = "none";
+		document.getElementById("invite-friends").innerHTML = "";
 	} else {
 		this.host = true;
 		this.lobbyId = player.pid;

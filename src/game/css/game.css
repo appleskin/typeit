@@ -18,7 +18,7 @@ input#type, input#lobby {
     margin-bottom: 5px;
 }
 
-.invite-friends {
+#invite-friends {
     width: 100px;
 }
 
