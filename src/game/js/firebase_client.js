@@ -145,7 +145,8 @@ Firebase_client.prototype.insertMissile = function( missile ) {
 			y: missile.y,
 			text: missile.text,
 			reverse: !missile.reverse, // flip flop son!
-			mid: missile.mid
+			mid: missile.mid,
+			ownerId: missile.ownerId
 		});
 	}
 };

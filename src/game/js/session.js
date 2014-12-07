@@ -44,9 +44,9 @@ Session.prototype.init = function( game ) {
     document.body.appendChild( start );
 
     if( UTIL.getUrlParam('lobbyId' ) ) {
-    	alert( "Joining Session" );
+		vex.dialog.alert('Joining Session');
 	} else {
-		alert( "New Session Created" );
+		vex.dialog.alert('Session Created');
 	}
 };
 
@@ -127,10 +127,10 @@ Session.prototype.beginClassic = function( timeout, limit, gravity ) {
 Session.prototype.startDeathmatch = function() {
 	var num_players = Object.keys( this.players ).length;
 	if( num_players < 2 ) {
-		alert( "You need at least two people to play Deathmatch" );
+		vex.dialog.alert('You need at least two people to play Deathmatch');
 		return;
 	} else if( num_players > 2 ) {
-		alert( "There can only be two people in the lobby to play Deathmatch" );
+		vex.dialog.alert('There can only be two people in the lobby to play Deathmatch');
 		return;
 	}
 
@@ -172,11 +172,19 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 
 Session.prototype.win = function( player ) {
 	if( player.pid === STORAGE.getItem('pid') ) {
-		alert( 'YOU WIN!' );
-		window.location.href = window.location.origin;
+		vex.dialog.open({
+		  	message: 'You Win!',
+		  	callback: function(data) {
+		  		window.location.href = window.location.origin;
+		  	}
+		});
 	} else {
-		alert( 'YOU LOSE!' );
-		window.location.href = window.location.origin;
+		vex.dialog.alert({
+			message: 'You Lose!',
+			callback: function() {
+				window.location.href = window.location.origin;		
+			}
+		});
 	}
 };
 
@@ -185,7 +193,7 @@ Session.prototype.processInput = function( text ) {
 		this.missiles.forEach( function( item ) {
 			var text_matches = item && (item.text === text);
 			var launched = item && item.launched;
-			var enemy_missile = item && item.reverse;
+			var enemy_missile = item && item.ownerId != STORAGE.getItem('pid');
 
 			// check enemy flying missiles
 		    if( item && text_matches && launched && enemy_missile ) {
@@ -222,7 +230,7 @@ Session.prototype.insertMissile = function( missile ) {
 
 Session.prototype.launchMissile = function( missile ) {
 	this.missiles.forEach( function( item ) {
-		if( item && item.mid === missile.mid ) {
+		if( item && item.mid === missile.mid && item.ownerId === missile.ownerId ) {
 			item.launch();
 		}
 	});

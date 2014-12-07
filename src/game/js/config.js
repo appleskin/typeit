@@ -18,8 +18,8 @@ Config = function() {
 	this.app = {
 		firebase: 'https://typeit-koding.firebaseio.com/',
 		lag_compensation_ms: 200,
-		score_to_win: 15,
-		missile_velocity: 50
+		score_to_win: 1,
+		missile_velocity: 5
 	};
 
 	this.levels = {
@@ -31,7 +31,7 @@ Config = function() {
 		normal: {
 			gravity: 50,
 			limit: 10,
-			delay: Phaser.Timer.SECOND*2
+			delay: Phaser.Timer.SECOND
 		},
 		hard: {
 			gravity: 100,

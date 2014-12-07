@@ -1,4 +1,4 @@
-Missile = function( game, x, y, text, reverse, mid ) {
+Missile = function( game, x, y, text, reverse, mid, owner ) {
 	Phaser.Sprite.call(this, game, x, y, 'missile');
 
     this.anchor.setTo( 0.5, 0.5 );
@@ -7,6 +7,8 @@ Missile = function( game, x, y, text, reverse, mid ) {
 		this.scale.x *= -1;
 		this.scale.y *= -1;
     }
+
+    this.ownerId = owner;
 
     game.physics.enable( [ this ], Phaser.Physics.ARCADE);
 

@@ -47,6 +47,10 @@ module.exports = function (grunt) {
             img: {
                 src: 'img/*.png',
                 dest: 'dist/'
+            },
+            vex: {
+                src: 'vex/**',
+                dest: 'dist/'
             }
         },
         watch: {
