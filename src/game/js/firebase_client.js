@@ -152,10 +152,12 @@ Firebase_client.prototype.insertMissile = function( missile ) {
 };
 
 Firebase_client.prototype.launchMissile = function( missile ) {
-	// Host or client
-	this.missiles.child(missile.mid).update({
-		launched: true
-	});
+	// Host or client - must own the missle
+	if( missile.ownerId === STORAGE.getItem('pid') ) {
+		this.missiles.child(missile.mid).update({
+			launched: true
+		});
+	}
 };
 
 Firebase_client.prototype.nukeMissile = function( mid ) {
