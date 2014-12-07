@@ -11,9 +11,6 @@ Session.prototype.init = function( game ) {
 	// Is this session hosting the game
 	this.host = true;
 
-	// this.lastPlayerCount = 0;
-	// this.num_layers = 0;
-
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, CONFIG.world.x, CONFIG.world.y);
     this.game.physics.arcade.gravity.y = CONFIG.gravity.y;
@@ -40,21 +37,6 @@ Session.prototype.init = function( game ) {
 
 Session.prototype.update = function() {
 	this.input.update();
-	
-	// // Replace player objects if there are more players now
-	// this.num_players = Object.keys(this.players).length;
-	// if( this.num_players > this.lastPlayerCount ) {
-
-	// 	this.lastPlayerCount = this.num_players;
-
-	// 	// Assign new locations
-	// 	var keys = Object.keys(this.players);
-	// 	for( var i=0; i<keys.length; i++ ) {
-	// 		var player = this.players[keys[i]];
-	// 		player.x = i*100;
-	// 		player.display_text.x = player.x + player.width/4;
-	// 	}
-	// }
 };
 
 Session.prototype.addPlayer = function( player ) {
@@ -149,7 +131,7 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 
 		this.addPlayer( new_player );
 	} else {
-		this.players[player.pid].score = player.score;
+		this.players[player.pid].setScore( player.score );
 	}
 };
 

@@ -37,6 +37,11 @@ Player.prototype.generatePlayerId = function() {
 	});
 };
 
+Player.prototype.setScore = function( score ) {
+	this.score = score;
+	this.display_text.text = '' + this.score;
+};
+
 Player.prototype.addPoints = function( value ) {
 	this.score += value;
 	this.display_text.text = '' + this.score;
