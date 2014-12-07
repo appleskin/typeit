@@ -31,10 +31,6 @@ MissileFactory.prototype.reloadMissileBay = function( missile_y, missile_owner )
 		new_missile = new Missile( this.game, 75, missile_y, UTIL.getRandomWord(), false, new_id, missile_owner );
 	}
 
-	if( !new_missile.ownerId ) {
-		debugger;
-	}
-
 	if( SESSION.host ) {
 		SESSION.firebase.insertMissile( new_missile );
 		SESSION.missiles.add( new_missile );

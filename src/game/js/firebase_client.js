@@ -134,10 +134,6 @@ Firebase_client.prototype.insertMissile = function( missile ) {
 
 	if( SESSION.host ) {
 
-		if( !missile.ownerId ) {
-			debugger;
-		}
-
 		this.missiles.child(missile.mid).set({
 			x: flop(missile.x),
 			y: missile.y,

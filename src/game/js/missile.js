@@ -62,7 +62,12 @@ Missile.prototype.update = function() {
 			setTimeout( function() {
 				SESSION.firebase.nukeMissile( thisMissile.mid );
 				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissile.ownerId );
-				thisMissile.explode();
+				
+				var thatMissile = thisMissile;
+				setTimeout( function() {
+					console.log( "Killing old missile" );
+					thatMissile.explode();
+				}, 5000	);
 			}, 1000 );
 
 			
