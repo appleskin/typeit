@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="welcome" class="grey_gradient">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Type It - Real Good</title>
 	<script>
 		var go = {
@@ -13,9 +14,60 @@
 			}
 		};
 	</script>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/game.css">
 </head>
-<body>
-	<button onclick="go.classic()"> Classic </button>
-	<button onclick="go.deathmatch()"> Deathmatch </button>
+<body style="background: transparent !important;">
+	<div class="fluid-container ti-header red_gradient">
+		TYPE IT - REAL GOOD
+	</div>
+	<div class="fluid-container ti-blurb">
+		A game of cunning keyboard quickness
+	</div>
+	<div class="container transparent center ti-content">
+		<div class="row" style="margin-bottom:30px;">
+			<!-- CLASSIC -->
+			<div class="col-sm-4 col-sm-offset-2">
+				<div class="ti-mode-container">
+					<div class="ti-mode-name">
+						CLASSIC
+					</div>
+					<hr>
+					<div class="ti-mode-desc">
+						Quick! Type the words in the asteroids before it's too late.
+					</div>
+					<div class="btn btn-warning ti-mode-play" onclick="go.classic()"> 
+						<div class="ti-spacer">
+							<span class="ti-action"> Play Classic </span>
+							<br>
+							<span class="ti-details"> 1-5 Players </span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- DEATHMATCH -->
+			<div class="col-sm-4">
+				<div class="ti-mode-container">
+					<div class="ti-mode-name">
+						DEATHMATCH
+					</div>
+					<hr>
+					<div class="ti-mode-desc">
+						Attack! Type the words listed on your missiles to launched them.  Type the words listed on the missiles of your enemy to shoot them down.
+					</div>
+					<div class="btn btn-danger ti-mode-play" onclick="go.deathmatch()">
+						<div class="ti-spacer">
+							<span class="ti-action"> Play Deathmatch </span>
+							<br>
+							<span class="ti-details"> 1-2 Players </span>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 </body>
 </html>
