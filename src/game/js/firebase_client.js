@@ -72,6 +72,10 @@ Firebase_client.prototype.enableClassicEvents = function() {
 	this.players.on("child_added", function( snapshot, prevName ) {
 		SESSION.addOrUpdateNetworkPlayer( snapshot.val() );
 	});
+
+	this.players.on("child_removed", function( snapshot, prevName ) {
+		SESSION.playerRemoved( snapshot.val() );
+	});
 };
 
 Firebase_client.prototype.enableDeathmatchEvents = function() {

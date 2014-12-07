@@ -82,7 +82,7 @@ Session.prototype.drawHud = function() {
 			for( var i=0; i<player_keys.length; i++ ) {
 				var p = this.players[player_keys[i]];
 
-				var text = p.pid === STORAGE.getItem('pid') ? 'Your Score:' + p.score : 'Player ' + i + ' Score: ' + p.score;
+				var text = p.pid === STORAGE.getItem('pid') ? 'Your Score:' + p.score : 'Other Guy ' + i + ' Score: ' + p.score;
 
 				game.debug.text( text, 10, 25*(i+1) );
 			}
@@ -219,6 +219,47 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 		} else {
 			this.players[player.pid].setScore( player.score );
 		}
+	}
+};
+
+Session.prototype.playerRemoved = function( player ) {
+	var thisSession = this;
+
+	
+	if( this.mode === 'classic' ) {
+		// In classic and you were removed - kicked
+		if( player.pid === STORAGE.getItem('pid') ) {
+			vex.dialog.open({
+				message: 'You were kicked from the session',
+				callback: function() {
+					thisSession.goHome();
+				}
+			});
+		} 
+		// In classic and someone else was connected - dropped player
+		else {
+			console.log( 'Dropped Player:' + player.pid );
+			var player_keys = Object.keys( this.players );
+			var new_player_list = {};
+			for( var i=0; i<player_keys.length; i++ ) {
+				if( this.players[player_keys[i]].pid !== player.pid ) {
+					new_player_list[player_keys[i].pid] = this.players[player_keys[i]];
+				}
+			}
+			this.players = new_player_list;
+		}
+		return;
+	}
+
+	// Losing anyone from deathmatch - disconnected
+	if( this.mode === 'deathmatch' ) {
+		vex.dialog.open({
+			message: 'You were disconnected from the match',
+			callback: function() {
+				thisSession.goHome();
+			}
+		});
+		return;
 	}
 };
 
