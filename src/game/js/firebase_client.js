@@ -162,7 +162,7 @@ Firebase_client.prototype.launchMissile = function( missile ) {
 
 Firebase_client.prototype.nukeMissile = function( missile ) {
 	try {
-		this.missiles.child(mid).set(null);
+		this.missiles.child(missile.mid).set(null);
 
 		// RELOAD - New missile reslots 2 seconds later
 		setTimeout( function() {
