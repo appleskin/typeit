@@ -172,7 +172,7 @@ Session.prototype.win = function( player ) {
 Session.prototype.processInput = function( text ) {
 	if( this.mode === 'deathmatch' ) {
 		this.missiles.forEach( function( item ) {
-			var text_matches = item.text === text;
+			var text_matches = item && (item.text === text);
 			var launched = item.launched;
 			var enemy_missile = item.reverse;
 
