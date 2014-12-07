@@ -28,7 +28,7 @@ Player = function( game, x, y, score, pid ) {
     if( SESSION.mode !== 'deathmatch' ) {
     	game.add.existing( this.display_text );
 	}
-	game.add.existing( this );
+	//game.add.existing( this );
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);

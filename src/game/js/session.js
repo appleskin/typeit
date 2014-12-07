@@ -35,7 +35,7 @@ Session.prototype.init = function( game ) {
     var input = document.createElement('input');
     input.id = 'type';
     input.type = 'text';
-    input.placeholder = 'Type here and press ENTER';
+    input.placeholder = 'Type and press ENTER to FIRE';
 
     var thisSession = this;
     var start = document.getElementById('start');
@@ -80,7 +80,7 @@ Session.prototype.showInvite = function( message ) {
 Session.prototype.update = function() {
 	this.input.update();
 
-	if( !this.auto_started && !this.started && document.getElementById('start').style.display !== 'none' && Object.keys( this.players ).length === 2 ) {
+	if( !this.auto_started && !this.started && this.host && Object.keys( this.players ).length === 2 ) {
 		this.auto_started = true;
 		this.startDeathmatch();
 	}
@@ -89,36 +89,38 @@ Session.prototype.update = function() {
 Session.prototype.drawHud = function() {
 	var player_keys = Object.keys( this.players );
 	
-	try {
-		var p1 = this.players[player_keys[0]];
-
-		if( this.mode === 'deathmatch' ) {
-			game.debug.text('Your Health: ' + p1.health, 10, 20);
-		}
-	} catch( ex ) { /* nom nom nom */ }
-
-	try {
-		var p2 = this.players[player_keys[1]];
-		if( this.mode === 'deathmatch' ) {
-			game.debug.text('Enemy Health: ' + p2.health, CONFIG.world.x - 150, 20);
-		}
-	} catch( ex ) { /* nom nom nom */ }
-
-	if( this.mode === 'classic' ) {
+	if( this.started ) {
 		try {
-			for( var i=0; i<player_keys.length; i++ ) {
-				var p = this.players[player_keys[i]];
+			var p1 = this.players[player_keys[0]];
 
-				var text = p.pid === STORAGE.getItem('pid') ? 'Your Score:' + p.score : 'Other Guy ' + i + ' Score: ' + p.score;
-
-				game.debug.text( text, 10, 25*(i+1) );
+			if( this.mode === 'deathmatch' ) {
+				game.debug.text('Your Health: ' + p1.health, 10, 20);
 			}
-		} catch( ex ) { console.error( ex ); }
+		} catch( ex ) { /* nom nom nom */ }
+
+		try {
+			var p2 = this.players[player_keys[1]];
+			if( this.mode === 'deathmatch' ) {
+				game.debug.text('Enemy Health: ' + p2.health, CONFIG.world.x - 150, 20);
+			}
+		} catch( ex ) { /* nom nom nom */ }
+
+		if( this.mode === 'classic' ) {
+			try {
+				for( var i=0; i<player_keys.length; i++ ) {
+					var p = this.players[player_keys[i]];
+
+					var text = p.pid === STORAGE.getItem('pid') ? 'Your Score:' + p.score : 'Other Guy ' + i + ' Score: ' + p.score;
+
+					game.debug.text( text, 10, 25*(i+1) );
+				}
+			} catch( ex ) { console.error( ex ); }
+		}
 	}
 
 	if( !this.started && this.mode === 'deathmatch' ) {
 		var x = CONFIG.world.x/2 - 140;
-		var text = "Waiting for someone to join...";
+		var text = "Waiting for opponent to join...";
 		if( !this.host ) {
 			text = "Waiting for host to start the game...";
 			x -= 20;
