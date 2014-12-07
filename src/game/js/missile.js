@@ -60,14 +60,15 @@ Missile.prototype.update = function() {
 			var thisMissile = this;
 			// RELOAD - New missile reslots 1 seconds later
 			setTimeout( function() {
-				SESSION.firebase.nukeMissile( thisMissile.mid );
-				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissile.ownerId );
 				
-				var thatMissile = thisMissile;
-				setTimeout( function() {
-					console.log( "Killing old missile" );
-					thatMissile.explode();
-				}, 5000	);
+				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissile.ownerId );
+				SESSION.firebase.nukeMissile( thisMissile.mid );
+				
+				// var thatMissile = thisMissile;
+				// setTimeout( function() {
+				// 	console.log( "Killing old missile" );
+				// 	thatMissile.explode();
+				// }, 5000	);
 			}, 1000 );
 
 			
