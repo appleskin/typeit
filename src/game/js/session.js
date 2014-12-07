@@ -17,6 +17,7 @@ Session.prototype.init = function( game ) {
 	}
 
 	this.game = game;
+	this.auto_started = false;
 
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, CONFIG.world.x, CONFIG.world.y);
@@ -57,6 +58,12 @@ Session.prototype.init = function( game ) {
 
 Session.prototype.update = function() {
 	this.input.update();
+
+
+	if( !this.auto_started && document.getElementById('start').style.display !== 'none' && Object.keys( this.players ).length === 2 ) {
+		this.startDeathmatch();
+		this.auto_started = true;
+	}
 };
 
 Session.prototype.drawHud = function() {
@@ -186,6 +193,7 @@ Session.prototype.startDeathmatch = function() {
 			if( result ) {	
 				// We have two players in the lobby
 				// "Now...Shall we begin?" - https://www.youtube.com/watch?v=RuX5nw0rzVc
+				document.getElementById('start').style.display = "none";
 				if( thisSession.host ) {
 					thisSession.missiles.spawnMissileBays();
 				}
@@ -216,6 +224,7 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 			new_player.display_text.x -= 25;
 
 			this.addPlayer( new_player );
+
 		} else {
 			this.players[player.pid].setScore( player.score );
 		}
