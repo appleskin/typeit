@@ -6,6 +6,8 @@ Player = function( game, x, y, score, pid ) {
     game.physics.enable( [ this ], Phaser.Physics.ARCADE);
     this.body.collideWorldBounds = true;
 
+    this.health = CONFIG.app.deathmatch_health;
+
     this.pid = null;
     if( pid ) {
     	this.pid = pid;
@@ -76,6 +78,13 @@ Player.prototype.getNewPlayerId = function() {
 		var new_id = this.generatePlayerId();
 		STORAGE.setItem( 'pid', new_id, false );
 		return new_id;
+	}
+};
+
+Player.prototype.hitBy = function( pid ) {
+	this.health = this.health-1;
+	if( this.health <= 0 ) {
+		SESSION.win( pid );
 	}
 };
 

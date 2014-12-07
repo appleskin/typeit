@@ -55,6 +55,15 @@ Missile.prototype.update = function() {
 		}
 	}
 
+	var player_keys = Object.keys(SESSION.players);
+	if( this.ownerId === STORAGE.getItem('pid') ) {
+		// YOU HIT ENEMY
+		SESSION.players[player_keys[1]].hitBy( player_keys[0] );
+	} else {
+		// ENEMY HIT YOU
+		SESSION.players[player_keys[0]].hitBy( player_keys[1] );
+	}
+
 };
 
 Missile.prototype.launch = function() {

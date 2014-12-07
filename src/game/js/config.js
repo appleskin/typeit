@@ -18,8 +18,9 @@ Config = function() {
 	this.app = {
 		firebase: 'https://typeit-koding.firebaseio.com/',
 		lag_compensation_ms: 200,
-		score_to_win: 1,
-		missile_velocity: 5
+		score_to_win: 10,
+		missile_velocity: 5,
+		deathmatch_health: 2
 	};
 
 	this.levels = {

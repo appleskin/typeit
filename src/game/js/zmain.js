@@ -15,7 +15,7 @@ var WORD_LIST   = new WordList();
  *      PHASER TIME
  *
  */
-var game = new Phaser.Game( CONFIG.world.x, CONFIG.world.y, Phaser.CANVAS, '', { preload: preload, create: create, update: update } );
+var game = new Phaser.Game( CONFIG.world.x, CONFIG.world.y, Phaser.CANVAS, '', { preload: preload, create: create, update: update, hud: hud } );
 
 function preload() {
     game.load.image( 'player',      'img/player.png'        );
@@ -32,4 +32,8 @@ function create(){
 
 function update() {
     SESSION.update();
+};
+
+function hud() {
+    SESSION.drawHud();
 };
