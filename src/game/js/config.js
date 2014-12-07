@@ -17,7 +17,8 @@ Config = function() {
 
 	this.app = {
 		firebase: 'https://typeit-koding.firebaseio.com/',
-		lag_compensation_ms: 300
+		lag_compensation_ms: 300,
+		score_to_win: 15
 	};
 
 	this.levels = {

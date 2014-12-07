@@ -21,6 +21,8 @@ Player = function( game, x, y, score, pid ) {
     this.style = { font: "12px Arial", fill: "#ffffff", shadowColor:"#000000", shadowOffsetX:"1", shadowOffsetY:"1", shadowBlur:"1", align: "center" };
     this.display_text = new Phaser.Text( game, x+this.width/4, y-10, '0', this.style );
 
+    this.tint = this.getNewPlayerTint();
+
     game.add.existing( this );
     game.add.existing( this.display_text );
 };
@@ -36,20 +38,36 @@ Player.prototype.generatePlayerId = function() {
 	});
 };
 
+Player.prototype.generatePlayerTint = function() {
+	var r = UTIL.random(100,200);
+	var g = UTIL.random(100,200);
+	var b = UTIL.random(100,200);
+
+	return UTIL.rgbToHex( r, g, b );
+};
+
 Player.prototype.setScore = function( score ) {
 	this.score = score;
 	this.display_text.text = '' + this.score;
+
+	if( this.score >= CONFIG.app.score_to_win ) {
+		SESSION.win( this );
+	}
 };
 
 Player.prototype.addPoints = function( value ) {
 	this.score += value;
 	this.display_text.text = '' + this.score;
 
+	if( this.score >= CONFIG.app.score_to_win ) {
+		SESSION.win( this );
+	}
+
 	SESSION.firebase.setPlayerPoints( this );
 };
 
 Player.prototype.getNewPlayerId = function() {
-	var stored_id = STORAGE.getItem('pid' );
+	var stored_id = STORAGE.getItem('pid');
 	if( stored_id ) {
 		return stored_id;
 	} else {
@@ -58,3 +76,35 @@ Player.prototype.getNewPlayerId = function() {
 		return new_id;
 	}
 };
+
+Player.prototype.getNewPlayerTint = function() {
+	var new_tint = this.generatePlayerTint();
+	//STORAGE.setItem( 'tint', new_tint.toString(), false );
+	return new_tint;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -110,11 +110,6 @@ Session.prototype.addPoints = function( value ) {
 	var player = this.players[STORAGE.getItem("pid")];
 
 	player.addPoints( value );
-
-	// this.firebase.players.child(player.pid).set({
-	// 	id: player.pid,
-	// 	score: player.score
-	// });
 };
 
 Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
@@ -133,6 +128,16 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 		} else {
 			this.players[player.pid].setScore( player.score );
 		}
+	}
+};
+
+Session.prototype.win = function( player ) {
+	if( player.pid === STORAGE.getItem('pid') ) {
+		alert( 'YOU WIN!' );
+		window.location.href = window.location.origin;
+	} else {
+		alert( 'YOU LOSE!' );
+		window.location.href = window.location.origin;
 	}
 };
 
