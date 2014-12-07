@@ -7,7 +7,7 @@ MissileFactory.prototype = Object.create(Phaser.Group.prototype);
 MissileFactory.prototype.constructor = MissileFactory;
 
 MissileFactory.prototype.insertMissile = function( missile ) {
-	this.add( new Missile( this.game, missile.x, missile.y, missile.text, missile.reverse, missile.mid, missile.ownerId ) );
+	this.add( new Missile( this.game, missile.x + 75, missile.y, missile.text, missile.reverse, missile.mid, missile.ownerId ) );
 };
 
 MissileFactory.prototype.removeMissile = function( mid ) {

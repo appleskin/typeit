@@ -197,7 +197,7 @@ Session.prototype.processInput = function( text ) {
 
 			// check enemy flying missiles
 		    if( item && text_matches && launched && enemy_missile ) {
-		    	SESSION.firebase.nukeMissile( item.mid );
+		    	SESSION.firebase.nukeMissile( item );
 		    } else if( item && text_matches ) {
 		    	this.firebase.launchMissile( item );
 		    }

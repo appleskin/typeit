@@ -160,9 +160,25 @@ Firebase_client.prototype.launchMissile = function( missile ) {
 	}
 };
 
-Firebase_client.prototype.nukeMissile = function( mid ) {
+Firebase_client.prototype.nukeMissile = function( missile ) {
 	try {
 		this.missiles.child(mid).set(null);
+
+		// RELOAD - New missile reslots 2 seconds later
+		setTimeout( function() {
+			if( SESSION.host ) {
+				if( missile.ownerId === STORAGE.getItem('pid') ) {
+					// Make missile for host - left side
+					var reload = new Missile( SESSION.game, 75, missile.y, UTIL.getRandomWord(), SESSION.missiles.currentId++, missile.ownerId );
+					SESSION.firebase.insertMissile( reload );
+				} else {
+					// Make missile fo client - right side
+					var reload = new Missile( SESSION.game, CONFIG.world.x - 75, missile.y, UTIL.getRandomWord(), SESSION.missiles.currentId++, missile.ownerId );
+					SESSION.firebase.insertMissile( reload );
+				}
+			}
+		}, 2000 );
+
 	} catch( ex ) {
 		console.error( ex );
 	}
