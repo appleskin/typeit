@@ -24,18 +24,20 @@ MissileFactory.prototype.removeMissile = function( mid ) {
 
 MissileFactory.prototype.reloadMissileBay = function( missile_y, missile_owner ) {
 	var new_id = this.currentId++;
-	var new_missile = new Missile( this.game, 75, missile_y, UTIL.getRandomWord(), false, new_id, missile_owner );
+	var new_missile = null;
 	if( missile_owner !== STORAGE.getItem('pid') ) {
 		new_missile = new Missile( this.game, CONFIG.world.x - 75, UTIL.getRandomWord(), true, new_id, missile_owner );
+	} else {
+		new_missile = new Missile( this.game, 75, missile_y, UTIL.getRandomWord(), false, new_id, missile_owner );
 	}
 
-	if( !reload.ownerId ) {
+	if( !new_missile.ownerId ) {
 		debugger;
 	}
 
 	if( SESSION.host ) {
-		SESSION.firebase.insertMissile( reload );
-		SESSION.missiles.add( reload );
+		SESSION.firebase.insertMissile( new_missile );
+		SESSION.missiles.add( new_missile );
 	}
 };
 
