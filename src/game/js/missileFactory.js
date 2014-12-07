@@ -27,9 +27,10 @@ MissileFactory.prototype.reloadMissileBay = function( missile ) {
 	if( missile.ownerId === STORAGE.getItem('pid') ) {
 		new_missile.reverse = false;
 		new_missile.x = 75;
-		
 	} else {
 		new_missile.reverse = true;
+		new_missile.scale.x *= -1;
+		new_missile.scale.y *= -1;
 		new_missile.x = CONFIG.world.x - 75;
 	}
 	return new_missile;
