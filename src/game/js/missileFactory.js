@@ -28,7 +28,15 @@ MissileFactory.prototype.reloadMissileBay = function( missile_y, missile_owner )
 	if( missile_owner !== STORAGE.getItem('pid') ) {
 		new_missile = new Missile( this.game, CONFIG.world.x - 75, UTIL.getRandomWord(), true, new_id, missile_owner );
 	}
-	return new_missile;
+
+	if( !reload.ownerId ) {
+		debugger;
+	}
+
+	if( SESSION.host ) {
+		SESSION.firebase.insertMissile( reload );
+		SESSION.missiles.add( reload );
+	}
 };
 
 MissileFactory.prototype.spawnMissileBays = function() {
