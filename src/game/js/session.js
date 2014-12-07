@@ -173,8 +173,8 @@ Session.prototype.processInput = function( text ) {
 	if( this.mode === 'deathmatch' ) {
 		this.missiles.forEach( function( item ) {
 			var text_matches = item && (item.text === text);
-			var launched = item.launched;
-			var enemy_missile = item.reverse;
+			var launched = item && item.launched;
+			var enemy_missile = item && item.reverse;
 
 			// check enemy flying missiles
 		    if( item && text_matches && launched && enemy_missile ) {
