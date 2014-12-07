@@ -31,6 +31,7 @@ MissileFactory.prototype.reloadMissileBay = function( missile ) {
 		new_missile.reverse = true;
 		new_missile.x = CONFIG.world.x - 75;
 	}
+	return new_missile;
 };
 
 MissileFactory.prototype.spawnMissileBays = function() {
