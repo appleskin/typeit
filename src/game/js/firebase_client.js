@@ -124,21 +124,6 @@ Firebase_client.prototype.insertWord = function( x, y, text, wid ) {
 Firebase_client.prototype.nukeWord = function( wid ) {
 	try {
 		this.words.child(wid).set(null);
-
-		// RELOAD - New missile reslots 2 seconds later
-		setTimeout( function() {
-			if( SESSION.host ) {
-				if( missile.ownerId === STORAGE.getItem('pid') ) {
-					// Make missile for host - left side
-					var reload = SESSION.missiles.reloadMissileBay( missile );
-					SESSION.firebase.insertMissile( reload );
-				} else {
-					// Make missile fo client - right side
-					var reload = SESSION.missiles.reloadMissileBay( missile );
-					SESSION.firebase.insertMissile( reload );
-				}
-			}
-		}, 2000 );
 	} catch( ex ) {
 		console.error( ex );
 	}
@@ -178,6 +163,21 @@ Firebase_client.prototype.launchMissile = function( missile ) {
 Firebase_client.prototype.nukeMissile = function( missile ) {
 	try {
 		this.missiles.child(missile.mid).set(null);
+
+		// RELOAD - New missile reslots 2 seconds later
+		setTimeout( function() {
+			if( SESSION.host ) {
+				if( missile.ownerId === STORAGE.getItem('pid') ) {
+					// Make missile for host - left side
+					var reload = SESSION.missiles.reloadMissileBay( missile );
+					SESSION.firebase.insertMissile( reload );
+				} else {
+					// Make missile fo client - right side
+					var reload = SESSION.missiles.reloadMissileBay( missile );
+					SESSION.firebase.insertMissile( reload );
+				}
+			}
+		}, 2000 );
 	} catch( ex ) {
 		console.error( ex );
 	}
