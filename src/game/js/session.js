@@ -236,8 +236,8 @@ Session.prototype.launchMissile = function( missile ) {
 	});
 };
 
-Session.prototype.removeMissile = function( mid ) {
-	this.missiles.removeMissile( mid );
+Session.prototype.removeMissile = function( missile ) {
+	this.missiles.removeMissile( missile.mid );
 
 	if( this.host ) {
 		// RELOAD - New missile reslots 2 seconds later

@@ -84,7 +84,7 @@ Firebase_client.prototype.enableDeathmatchEvents = function() {
 
 	this.missiles.on("child_removed", function( snapshot ) {
 		var missile = snapshot.val();
-		SESSION.removeMissile( missile.mid );
+		SESSION.removeMissile( missile );
 	});
 
 	this.missiles.on("child_changed", function( snapshot ) {
