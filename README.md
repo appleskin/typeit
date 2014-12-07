@@ -16,7 +16,7 @@ HTML5 games that are educational and learning oriented. (multiplayer preferred)
 
 ## Screenshots
 
-Here provide couple screenshots of your project. You can use a tool like https://monosnap.com/welcome or https://droplr.com to take a screenshot. Animated gifs are also welcome.
+![Home Page](https://monosnap.com/image/vk31ckmcJyqvbSmkmgyRvmzNgNQ8sf.png)
 
 
 ## APIs used
