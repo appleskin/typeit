@@ -166,16 +166,14 @@ Firebase_client.prototype.nukeMissile = function( missile ) {
 
 		// RELOAD - New missile reslots 2 seconds later
 		setTimeout( function() {
-			if( SESSION.host ) {
-				if( missile.ownerId === STORAGE.getItem('pid') ) {
-					// Make missile for host - left side
-					var reload = SESSION.missiles.reloadMissileBay( missile );
-					SESSION.firebase.insertMissile( reload );
-				} else {
-					// Make missile fo client - right side
-					var reload = SESSION.missiles.reloadMissileBay( missile );
-					SESSION.firebase.insertMissile( reload );
-				}
+			if( missile.ownerId === STORAGE.getItem('pid') ) {
+				// Make missile for host - left side
+				var reload = SESSION.missiles.reloadMissileBay( missile );
+				SESSION.firebase.insertMissile( reload );
+			} else {
+				// Make missile fo client - right side
+				var reload = SESSION.missiles.reloadMissileBay( missile );
+				SESSION.firebase.insertMissile( reload );
 			}
 		}, 2000 );
 	} catch( ex ) {

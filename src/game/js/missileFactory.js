@@ -23,7 +23,7 @@ MissileFactory.prototype.removeMissile = function( mid ) {
 };
 
 MissileFactory.prototype.reloadMissileBay = function( missile ) {
-	var new_missile = new Missile( this.game, missile.x, missile.y, missile.reverse, this.currentId++, missile.owner );
+	var new_missile = new Missile( this.game, missile.x, missile.y, UTIL.getRandomWord(), missile.reverse, this.currentId++, missile.owner );
 	if( missile.ownerId === STORAGE.getItem('pid') ) {
 		new_missile.reverse = false;
 		new_missile.x = 75;
