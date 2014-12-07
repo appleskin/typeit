@@ -239,6 +239,7 @@ Session.prototype.launchMissile = function( missile ) {
 Session.prototype.removeMissile = function( missile ) {
 	this.missiles.removeMissile( missile.mid );
 
+	var thisSession = this;
 	if( this.host ) {
 		// RELOAD - New missile reslots 2 seconds later
 		setTimeout( function() {
@@ -252,7 +253,7 @@ Session.prototype.removeMissile = function( missile ) {
 				reload = SESSION.missiles.reloadMissileBay( missile );
 				SESSION.firebase.insertMissile( reload );
 			}
-			this.missiles.add( reload );
+			thisSession.missiles.add( reload );
 		}, 2000 );
 	}
 };
