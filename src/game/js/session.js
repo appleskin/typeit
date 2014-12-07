@@ -242,15 +242,17 @@ Session.prototype.removeMissile = function( missile ) {
 	if( this.host ) {
 		// RELOAD - New missile reslots 2 seconds later
 		setTimeout( function() {
+			var reload = null;
 			if( missile.ownerId === STORAGE.getItem('pid') ) {
 				// Make missile for host - left side
-				var reload = SESSION.missiles.reloadMissileBay( missile );
+				reload = SESSION.missiles.reloadMissileBay( missile );
 				SESSION.firebase.insertMissile( reload );
 			} else {
 				// Make missile fo client - right side
-				var reload = SESSION.missiles.reloadMissileBay( missile );
+				reload = SESSION.missiles.reloadMissileBay( missile );
 				SESSION.firebase.insertMissile( reload );
 			}
+			this.missiles.add( reload );
 		}, 2000 );
 	}
 };
