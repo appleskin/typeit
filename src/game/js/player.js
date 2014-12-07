@@ -64,7 +64,7 @@ Player.prototype.addPoints = function( value ) {
 	this.display_text.text = '' + this.score;
 
 	if( this.score >= CONFIG.app.score_to_win ) {
-		SESSION.win( this );
+		SESSION.win( this.pid );
 	}
 
 	SESSION.firebase.setPlayerPoints( this );

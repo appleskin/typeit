@@ -184,8 +184,8 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 	}
 };
 
-Session.prototype.win = function( player ) {
-	if( player.pid === STORAGE.getItem('pid') ) {
+Session.prototype.win = function( pid ) {
+	if( pid === STORAGE.getItem('pid') ) {
 		vex.dialog.open({
 		  	message: 'You Win!',
 		  	callback: function(data) {
