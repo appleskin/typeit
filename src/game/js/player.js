@@ -18,7 +18,7 @@ Player = function( game, x, y, score, pid ) {
     	this.score += score;
     }
 
-    this.style = { font: "12px Arial", fill: "#ffffff", shadowColor:"#000000", shadowOffsetX:"1", shadowOffsetY:"1", shadowBlur:"1", align: "center" };
+    this.style = { font: "21px Arial", fill: "#ffffff", shadowColor:"#000000", shadowOffsetX:"1", shadowOffsetY:"1", shadowBlur:"1", align: "center" };
     this.display_text = new Phaser.Text( game, x+this.width/4, y-10, '0', this.style );
 
     this.tint = this.getNewPlayerTint();

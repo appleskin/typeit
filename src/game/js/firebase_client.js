@@ -12,12 +12,14 @@ Firebase_client = function( player, lobbyId, host ) {
 	this.players 	= this.lobby.child("players");
 	this.words   	= this.lobby.child("words");
 	this.settings 	= this.lobby.child("settings");
+	this.missiles   = this.lobby.child("missles");
 
 	// Start a new lobby for your own game
 	if( host ) {
 		this.players.set(null);
 		this.settings.set(null);
 		this.words.set(null);
+		this.missiles.set(null);
 	}
 
 	// Add yourself to network
@@ -25,12 +27,9 @@ Firebase_client = function( player, lobbyId, host ) {
 		pid: player.pid,
 		score: player.score
 	});
-
-	// Set up events
-	this.enableEvents();
 };
 
-Firebase_client.prototype.enableEvents = function() {
+Firebase_client.prototype.enableClassicEvents = function() {
 	if( !SESSION.host ) {
 		this.words.on("child_added", function( snapshot, prevName ) {
 			var word = snapshot.val();
@@ -42,6 +41,28 @@ Firebase_client.prototype.enableEvents = function() {
 		var word = snapshot.val();
 		SESSION.removeWord( word.wid );
 	});
+
+	this.players.on("child_changed", function( snapshot, prevName ) {
+		SESSION.addOrUpdateNetworkPlayer( snapshot.val() );
+	});
+
+	this.players.on("child_added", function( snapshot, prevName ) {
+		SESSION.addOrUpdateNetworkPlayer( snapshot.val() );
+	});
+};
+
+Firebase_client.prototype.enableDeathmatchEvents = function() {
+	// if( !SESSION.host ) {
+	// 	this.words.on("child_added", function( snapshot, prevName ) {
+	// 		var word = snapshot.val();
+	// 		SESSION.insertWord( word.x, word.y, word.text, word.wid );
+	// 	});
+	// }
+
+	// this.words.on("child_removed", function( snapshot ) {
+	// 	var word = snapshot.val();
+	// 	SESSION.removeWord( word.wid );
+	// });
 
 	this.players.on("child_changed", function( snapshot, prevName ) {
 		SESSION.addOrUpdateNetworkPlayer( snapshot.val() );
