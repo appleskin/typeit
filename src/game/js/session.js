@@ -12,7 +12,7 @@ Session.prototype.goHome = function() {
 Session.prototype.init = function( game ) {
 	this.mode = UTIL.getUrlParam('mode');
 
-	if( this.mode !== 'deathmatch' && this.mode !== 'classic' ) {
+	if( this.mode !== 'deathmatch' ) {
 		this.goHome();
 	}
 

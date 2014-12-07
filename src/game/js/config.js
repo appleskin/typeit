@@ -20,7 +20,7 @@ Config = function() {
 		lag_compensation_ms: 200,
 		score_to_win: 10,
 		missile_velocity: 50,
-		deathmatch_health: 2
+		deathmatch_health: 3
 	};
 
 	this.levels = {
