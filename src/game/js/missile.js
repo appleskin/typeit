@@ -61,7 +61,8 @@ Missile.prototype.update = function() {
 			var thisMissile = this;
 			// RELOAD - New missile reslots 1 seconds later
 			setTimeout( function() {
-				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissle.ownerId );
+				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissile.ownerId );
+				thisMissile.explode();
 			}, 1000 );
 
 			
