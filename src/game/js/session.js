@@ -319,7 +319,7 @@ Session.prototype.win = function( pid ) {
 		vex.dialog.alert({
 			message: 'You Lose!',
 			callback: function() {
-				this.Session.goHome("Dang! Sorry about the loss...");	
+				thisSession.goHome("Dang! Sorry about the loss...");	
 			}
 		});
 	}
