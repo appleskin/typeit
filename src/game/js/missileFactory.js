@@ -23,15 +23,10 @@ MissileFactory.prototype.removeMissile = function( mid ) {
 };
 
 MissileFactory.prototype.reloadMissileBay = function( missile ) {
-	var new_missile = new Missile( this.game, missile.x, missile.y, UTIL.getRandomWord(), missile.reverse, this.currentId++, missile.ownerId );
-	if( missile.ownerId === STORAGE.getItem('pid') ) {
-		new_missile.reverse = false;
-		new_missile.x = 75;
-	} else {
-		new_missile.reverse = true;
-		new_missile.scale.x *= -1;
-		new_missile.scale.y *= -1;
-		new_missile.x = CONFIG.world.x - 75;
+	var new_id = this.currentId++;
+	var new_missile = new Missile( this.game, 75, missile.y, UTIL.getRandomWord(), false, new_id, missile.ownerId );
+	if( missile.ownerId !== STORAGE.getItem('pid') ) {
+		new_missile = new Missile( this.game, CONFIG.word.x - 75, UTIL.getRandomWord(), true, new_id, missile.ownerId );
 	}
 	return new_missile;
 };
