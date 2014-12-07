@@ -119,7 +119,7 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 		if( !this.players[player.pid] ) {
 
 			var num_players = Object.keys(this.players).length + 1;
-			var x_pos = num_players * 100;
+			var x_pos = num_players * 50;
 
 			var new_player = new Player( this.game, x_pos, CONFIG.world.y-25, player.score, player.pid );
 			new_player.display_text.x -= 25;
