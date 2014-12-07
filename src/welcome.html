@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Type It - Real Good</title>
+	<script>
+		var go = {
+			classic: function() {
+				window.location.href = window.location.origin + '?mode=classic';
+			},
+			deathmatch: function() {
+				window.location.href = window.location.origin + '?mode=deathmatch';
+			}
+		};
+	</script>
+</head>
+<body>
+	<button onclick="go.classic()"> Classic </button>
+	<button onclick="go.deathmatch()"> Deathmatch </button>
+</body>
+</html>

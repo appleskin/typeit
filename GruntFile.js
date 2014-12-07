@@ -44,6 +44,10 @@ module.exports = function (grunt) {
                 src: 'src/index.html',
                 dest: 'dist/index.html'
             },
+            welcome: {
+                src: 'src/welcome.html',
+                dest: 'dist/welcome.html'
+            },
             img: {
                 src: 'img/*.png',
                 dest: 'dist/'
@@ -65,12 +69,11 @@ module.exports = function (grunt) {
             html: {
                 files: 'src/index.html',
                 tasks: ['copy:html']
+            },
+            welcome: {
+                files: 'src/welcome.html',
+                tasks: ['copy:welcome']
             }
-            // ,
-            // img: {
-            //     src: 'img/*.png',
-            //     tasks: ['copy:img']
-            // }
         },
         open: {
             dev: {

@@ -10,7 +10,7 @@ Firebase_client = function( player, lobbyId, host ) {
     	if( SESSION.mode === 'deathmatch' ) {
     		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId + '&mode=deathmatch';
     	} else {
-    		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId;
+    		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId + '&mode=classic';
     	}
     }
 };

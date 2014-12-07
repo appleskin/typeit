@@ -5,8 +5,16 @@ Session = function() {
 
 Session.prototype.constructor = Session;
 
+Session.prototype.goHome = function() {
+	window.location.href = window.location.origin + "/welcome.html";
+};
+
 Session.prototype.init = function( game ) {
 	this.mode = UTIL.getUrlParam('mode');
+
+	if( this.mode !== 'deathmatch' && this.mode !== 'classic' ) {
+		this.goHome();
+	}
 
 	this.game = game;
 
@@ -102,7 +110,7 @@ Session.prototype.connect = function() {
 
 	}, function( error ) {
 		console.log( error );
-		window.location.href = window.location.origin;
+		this.goHome("Connection error");
 	});
 };
 
@@ -185,18 +193,19 @@ Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
 };
 
 Session.prototype.win = function( pid ) {
+	var thisSession = this;
 	if( pid === STORAGE.getItem('pid') ) {
 		vex.dialog.open({
 		  	message: 'You Win!',
 		  	callback: function(data) {
-		  		window.location.href = window.location.origin;
+		  		thisSession.goHome("Woot! GG Mate!");
 		  	}
 		});
 	} else {
 		vex.dialog.alert({
 			message: 'You Lose!',
 			callback: function() {
-				window.location.href = window.location.origin;		
+				this.Session.goHome("Dang! Sorry about the loss...");	
 			}
 		});
 	}
