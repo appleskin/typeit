@@ -56,11 +56,11 @@ Missile.prototype.update = function() {
 		this.body.velocity = 0;
 
 		if( SESSION.host ) {
-			SESSION.firebase.nukeMissile( this.mid );
-
+			
 			var thisMissile = this;
 			// RELOAD - New missile reslots 1 seconds later
 			setTimeout( function() {
+				SESSION.firebase.nukeMissile( thisMissile.mid );
 				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissile.ownerId );
 				thisMissile.explode();
 			}, 1000 );
