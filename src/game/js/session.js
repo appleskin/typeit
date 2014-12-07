@@ -6,11 +6,17 @@ Session = function() {
 Session.prototype.constructor = Session;
 
 Session.prototype.init = function( game ) {
+	this.mode = UTIL.getUrlParam('mode');
+
 	this.game = game;
 
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, CONFIG.world.x, CONFIG.world.y);
     this.game.physics.arcade.gravity.y = CONFIG.gravity.y;
+
+    if( this.mode === 'deathmatch' ) {
+    	this.game.physics.arcade.gravity.y = 0;
+    }
 
     this.words = new WordFactory( this.game );
     this.input = new Input( game );
@@ -22,23 +28,19 @@ Session.prototype.init = function( game ) {
 
     var thisSession = this;
     var start = document.createElement('button');
-    start.id = 'classic';
-    start.innerHTML = 'Classic 1-5 Players';
+    start.id = 'start';
+    if( this.mode === 'deathmatch' ) {
+    	start.innerHTML = 'Start Deathmatch [2 Players]';
+	} else {
+		start.innerHTML = 'Start Classic [1-5 Players]';
+	}
     start.onclick = function() {
-    	thisSession.startClassic( 'normal' );
-    };
-
-    var startVs = document.createElement('button');
-    startVs.id = 'deathmatch';
-    startVs.innerHTML = 'Deathmatch 2 Player';
-    startVs.onclick = function() {
-    	thisSession.startDeathmatch();
+    	thisSession.start();
     };
 
     document.body.appendChild( input );
     document.body.appendChild( document.createElement('br') );
     document.body.appendChild( start );
-    document.body.appendChild( startVs );
 
     if( UTIL.getUrlParam('lobbyId' ) ) {
     	alert( "Joining Session" );
@@ -62,8 +64,7 @@ Session.prototype.connect = function() {
 	this.lobbyId = UTIL.getUrlParam('lobbyId');
 	if( this.lobbyId ) {
 		this.host = false;
-		document.getElementById("classic").style.display = "none";
-		document.getElementById("deathmatch").style.display = "none";
+		document.getElementById("start").style.display = "none";
 	} else {
 		this.host = true;
 		this.lobbyId = player.pid;
@@ -72,18 +73,24 @@ Session.prototype.connect = function() {
 	this.firebase = new Firebase_client( player, this.lobbyId, this.host );
 
 	// Enable game type events
-	var mode = UTIL.getUrlParam('mode');
-	if( mode === 'deathmatch') {
+	if( this.mode === 'deathmatch') {
 		this.firebase.enableDeathmatchEvents();
 	} else {
 		this.firebase.enableClassicEvents();
 	}
 };
 
+Session.prototype.start = function() {
+	if( this.mode === 'deathmatch' ) {
+		this.startDeathmatch();
+	} else {
+		this.startClassic( 'normal' );
+	}
+};
+
 Session.prototype.startClassic = function( difficulty ) {
 	if( this.host ) {
-		this.firebase.setSetting( 'gravity',  CONFIG.levels.normal.gravity );
-		this.firebase.setSetting( 'state',    'paused' 	);
+		this.firebase.setSetting( 'state', 'paused' );
 			
 		if( !difficulty ) {
 			difficulty = 'normal';
@@ -92,9 +99,8 @@ Session.prototype.startClassic = function( difficulty ) {
 
 		this.firebase.setSetting( 'state',	 'playing' );
 		this.firebase.setSetting( 'gravity',  CONFIG.levels[difficulty].gravity  );
-
 	} else {
-		this.firebase.syncSetting( 'gravity' );
+		this.game.physics.arcade.gravity.y = CONFIG.levels[difficulty].gravity;
 	}
 };
 
@@ -109,9 +115,6 @@ Session.prototype.beginClassic = function( timeout, limit, gravity ) {
 };
 
 Session.prototype.startDeathmatch = function() {
-	this.game.physics.arcade.gravity.y = 0;
-	this.firebase.syncSetting( 'gravity' );
-
 	var num_players = Object.keys( this.players ).length;
 	if( num_players < 2 ) {
 		alert( "You need at least two people to play Deathmatch" );
@@ -131,9 +134,10 @@ Session.prototype.startDeathmatch = function() {
 	// Step 2
 	// Build and place list of missles on right - them
 
+	this.beginDeathmatch();
 };
 
-Session.prototype.beginDeathmatch = function( gravity ) {
+Session.prototype.beginDeathmatch = function() {
 	alert( 'begin deathmatch' );
 };
 

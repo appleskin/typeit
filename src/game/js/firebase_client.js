@@ -3,7 +3,11 @@ Firebase_client = function( player, lobbyId, host ) {
     	document.getElementById("lobby").value = "In lobby: " + lobbyId;
     	document.getElementById("lobby").disabled = "disabled";
     } else {
-    	document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId;
+    	if( SESSION.mode === 'deathmatch' ) {
+    		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId + '&mode=deathmatch';
+    	} else {
+    		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId;
+    	}
     }
 
     this.lobbyURL = CONFIG.app.firebase + lobbyId;
@@ -104,16 +108,5 @@ Firebase_client.prototype.nukeWord = function( wid ) {
 Firebase_client.prototype.setSetting = function( key, value ) {
 	this.settings.child(key).set({
 		value:value
-	});
-};
-
-Firebase_client.prototype.syncSetting = function( key ) {
-	var ref = new Firebase(this.lobbyURL + '/settings/' + key);
-	ref.on('value', function( snapshot ) {
-		if( key === 'gravity' ) {
-			SESSION.game.physics.arcade.gravity.y = snapshot.val().value;
-		}
-	}, function( error ) {
-		console.error( error );
 	});
 };

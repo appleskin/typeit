@@ -7,7 +7,7 @@ Config = function() {
 
 	this.gravity = {
 		x: 0,
-		y: 500
+		y: 100
 	}
 
 	this.debug = {
