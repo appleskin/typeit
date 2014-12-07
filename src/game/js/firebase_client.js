@@ -154,6 +154,9 @@ Firebase_client.prototype.launchMissile = function( missile ) {
 };
 
 Firebase_client.prototype.nukeMissile = function( missile ) {
+	if( !missile.ownerId ) {
+		debugger;
+	}
 	try {
 		this.missiles.child(missile.mid).set(null);
 	} catch( ex ) {

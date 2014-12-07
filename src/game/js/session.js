@@ -375,6 +375,11 @@ Session.prototype.launchMissile = function( missile ) {
 };
 
 Session.prototype.removeMissile = function( missile ) {
+
+	if( !missile.ownerId ) {
+		debugger;
+	}
+
 	this.missiles.removeMissile( missile.mid );
 	
 	var thisSession = this;
