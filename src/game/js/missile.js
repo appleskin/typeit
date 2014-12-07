@@ -49,14 +49,22 @@ Missile.prototype.update = function() {
     	this.display_text.y = this.y - this.height/4;
     }
 
-	if( this.x > CONFIG.world.x + 200 || this.x < -200 ) {
+	if( this.x > CONFIG.world.x + 75 || this.x < -75 ) {
 
 		this.y = -100;
-		this.x = 100;
+		this.x = 200;
 		this.body.velocity = 0;
 
 		if( SESSION.host ) {
 			SESSION.firebase.nukeMissile( this.mid );
+
+			var thisMissile = this;
+			// RELOAD - New missile reslots 1 seconds later
+			setTimeout( function() {
+				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissle.ownerId );
+			}, 1000 );
+
+			
 		}
 
 		var player_keys = Object.keys(SESSION.players);

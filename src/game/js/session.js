@@ -379,10 +379,10 @@ Session.prototype.removeMissile = function( missile ) {
 	
 	var thisSession = this;
 	if( this.host ) {
-		// RELOAD - New missile reslots 2 seconds later
+		// RELOAD - New missile reslots 1 seconds later
 		setTimeout( function() {
 			thisSession.missiles.reloadMissileBay( missile.y, missile.ownerId );
-		}, 2000 );
+		}, 1000 );
 	}
 };
 
