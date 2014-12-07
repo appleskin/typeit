@@ -1,4 +1,8 @@
 Firebase_client = function( player, lobbyId, host ) {
+	this.lobbyId 	= lobbyId;
+	this.player 	= player;
+	this.host 		= host;
+
     if( !host ) {
     	document.getElementById("lobby").value = "In lobby: " + lobbyId;
     	document.getElementById("lobby").disabled = "disabled";
@@ -9,17 +13,19 @@ Firebase_client = function( player, lobbyId, host ) {
     		document.getElementById("lobby").value = window.location.origin + '?lobbyId=' + lobbyId;
     	}
     }
+};
 
-    this.lobbyURL = CONFIG.app.firebase + lobbyId;
+Firebase_client.prototype.init = function() {
+	this.lobbyURL = CONFIG.app.firebase + this.lobbyId;
     this.lobby = new Firebase( this.lobbyURL );
 
 	this.players 	= this.lobby.child("players");
 	this.words   	= this.lobby.child("words");
 	this.settings 	= this.lobby.child("settings");
-	this.missiles   = this.lobby.child("missles");
+	this.missiles 	= this.lobby.child("missles");
 
 	// Start a new lobby for your own game
-	if( host ) {
+	if( this.host ) {
 		this.players.set(null);
 		this.settings.set(null);
 		this.words.set(null);
@@ -27,11 +33,24 @@ Firebase_client = function( player, lobbyId, host ) {
 	}
 
 	// Add yourself to network
-	this.players.child(player.pid).set({
-		pid: player.pid,
-		score: player.score
+	this.players.child(this.player.pid).set({
+		pid: this.player.pid,
+		score: this.player.score
 	});
 };
+
+Firebase_client.prototype.logIn = new Promise(function( resolve, reject) {
+    var ref = new Firebase('https://typeit-koding.firebaseio.com/');
+	ref.authAnonymously(function(error, authData) {
+		if ( error ) {
+			reject( error );
+	  	} else {
+			resolve();
+	  	}
+	},{
+		remember: "sessionOnly"
+	});
+});
 
 Firebase_client.prototype.enableClassicEvents = function() {
 	if( !SESSION.host ) {

@@ -74,12 +74,22 @@ Session.prototype.connect = function() {
 
 	this.firebase = new Firebase_client( player, this.lobbyId, this.host );
 
-	// Enable game type events
-	if( this.mode === 'deathmatch') {
-		this.firebase.enableDeathmatchEvents();
-	} else {
-		this.firebase.enableClassicEvents();
-	}
+	var thisSession = this;
+	this.firebase.logIn.then( function() {
+		
+		thisSession.firebase.init();
+
+		// Enable game type events
+		if( thisSession.mode === 'deathmatch') {
+			thisSession.firebase.enableDeathmatchEvents();
+		} else {
+			thisSession.firebase.enableClassicEvents();
+		}
+
+	}, function( error ) {
+		console.log( error );
+		window.location.href = window.location.origin;
+	});
 };
 
 Session.prototype.start = function() {
