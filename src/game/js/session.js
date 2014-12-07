@@ -111,27 +111,28 @@ Session.prototype.addPoints = function( value ) {
 
 	player.addPoints( value );
 
-	this.firebase.players.child(player.pid).set({
-		id: player.pid,
-		score: player.score
-	});
+	// this.firebase.players.child(player.pid).set({
+	// 	id: player.pid,
+	// 	score: player.score
+	// });
 };
 
 Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
-	// if( player.pid === STORAGE.getItem('pid') ) {
-	// 	return;
-	// }
-	if( !this.players[player.pid] ) {
-
-		var num_players = Object.keys(this.players).length + 1;
-		var x_pos = num_players * 100;
-
-		var new_player = new Player( this.game, x_pos, CONFIG.world.y-25, player.score, player.pid );
-		new_player.display_text.x -= 25;
-
-		this.addPlayer( new_player );
+	if( player.pid === STORAGE.getItem('pid') ) {
+		return;
 	} else {
-		this.players[player.pid].setScore( player.score );
+		if( !this.players[player.pid] ) {
+
+			var num_players = Object.keys(this.players).length + 1;
+			var x_pos = num_players * 100;
+
+			var new_player = new Player( this.game, x_pos, CONFIG.world.y-25, player.score, player.pid );
+			new_player.display_text.x -= 25;
+
+			this.addPlayer( new_player );
+		} else {
+			this.players[player.pid].setScore( player.score );
+		}
 	}
 };
 

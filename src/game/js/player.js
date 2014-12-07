@@ -14,7 +14,6 @@ Player = function( game, x, y, score, pid ) {
 	}
 
     this.score = 0;
-
     if( score ) {
     	this.score += score;
     }
