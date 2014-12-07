@@ -50,6 +50,11 @@ Missile.prototype.update = function() {
     }
 
 	if( this.x > CONFIG.world.x + 200 || this.x < -200 ) {
+
+		this.y = -100;
+		this.x = 100;
+		this.body.velocity = 0;
+
 		if( SESSION.host ) {
 			SESSION.firebase.nukeMissile( this.mid );
 		}
