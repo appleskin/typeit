@@ -36,8 +36,7 @@ Session.prototype.init = function( game ) {
     input.placeholder = 'Type here and press ENTER';
 
     var thisSession = this;
-    var start = document.createElement('button');
-    start.id = 'start';
+    var start = document.getElementById('start');
     if( this.mode === 'deathmatch' ) {
     	start.innerHTML = 'Start Deathmatch [2 Players]';
 	} else {
@@ -48,8 +47,6 @@ Session.prototype.init = function( game ) {
     };
 
     document.body.appendChild( input );
-    document.body.appendChild( document.createElement('br') );
-    document.body.appendChild( start );
 
     if( UTIL.getUrlParam('lobbyId' ) ) {
 		vex.dialog.alert('Joining Session');
@@ -67,13 +64,30 @@ Session.prototype.drawHud = function() {
 	
 	try {
 		var p1 = this.players[player_keys[0]];
-		game.debug.text('Your Health: ' + p1.health, 10, 20);
+
+		if( this.mode === 'deathmatch' ) {
+			game.debug.text('Your Health: ' + p1.health, 10, 20);
+		}
 	} catch( ex ) { /* nom nom nom */ }
 
 	try {
 		var p2 = this.players[player_keys[1]];
-		game.debug.text('Enemy Health: ' + p2.health, CONFIG.world.x - 150, 20);
+		if( this.mode === 'deathmatch' ) {
+			game.debug.text('Enemy Health: ' + p2.health, CONFIG.world.x - 150, 20);
+		}
 	} catch( ex ) { /* nom nom nom */ }
+
+	if( this.mode === 'classic' ) {
+		try {
+			for( var i=0; i<player_keys.length; i++ ) {
+				var p = this.players[player_keys[i]];
+
+				var text = p.pid === STORAGE.getItem('pid') ? 'Your Score:' + p.score : 'Player ' + i + ' Score: ' + p.score;
+
+				game.debug.text( text, 10, 25*(i+1) );
+			}
+		} catch( ex ) { console.error( ex ); }
+	}
 };
 
 Session.prototype.addPlayer = function( player ) {
@@ -123,17 +137,26 @@ Session.prototype.start = function() {
 };
 
 Session.prototype.startClassic = function( difficulty ) {
-	if( this.host ) {
-		this.firebase.setSetting( 'state', 'paused' );
-			
-		if( !difficulty ) {
-			difficulty = 'normal';
-		}
-		this.beginClassic( CONFIG.levels[difficulty].delay, CONFIG.levels[difficulty].limit, CONFIG.levels[difficulty].gravity );
+	var thisSession = this;
+	vex.dialog.confirm({
+		message: 'Start CLASSIC with ' + Object.keys(this.players).length + ' players?',
+		callback: function( result ) {
+			if( result ) {
+				if( thisSession.host ) {
+					thisSession.firebase.setSetting( 'state', 'paused' );
+						
+					if( !difficulty ) {
+						difficulty = 'normal';
+					}
+					thisSession.beginClassic( CONFIG.levels[difficulty].delay, CONFIG.levels[difficulty].limit, CONFIG.levels[difficulty].gravity );
 
-		this.firebase.setSetting( 'state',	 'playing' );
-		this.firebase.setSetting( 'gravity',  CONFIG.levels[difficulty].gravity  );
-	}
+					thisSession.firebase.setSetting( 'state',	 'playing' );
+					thisSession.firebase.setSetting( 'gravity',  CONFIG.levels[difficulty].gravity  );
+				}
+			}
+		}
+	});
+
 };
 
 Session.prototype.beginClassic = function( timeout, limit, gravity ) {
@@ -156,15 +179,22 @@ Session.prototype.startDeathmatch = function() {
 		return;
 	}
 
-	// We have two players in the lobby
-	// "Now...Shall we begin?" - https://www.youtube.com/watch?v=RuX5nw0rzVc
-	if( this.host ) {
-		this.missiles.spawnMissileBays();
-	}
-};
+	var thisSession = this;
+	vex.dialog.confirm({
+		message: 'Start DEATHMATCH with ' + Object.keys(this.players).length + ' players?',
+		callback: function( result ) {
+			if( result ) {	
+				// We have two players in the lobby
+				// "Now...Shall we begin?" - https://www.youtube.com/watch?v=RuX5nw0rzVc
+				if( thisSession.host ) {
+					thisSession.missiles.spawnMissileBays();
+				}
+			} else {
+				// Don't Start
+			}
+		}
+	});
 
-Session.prototype.beginDeathmatch = function() {
-	
 };
 
 Session.prototype.addPoints = function( value ) {
