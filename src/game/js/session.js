@@ -118,9 +118,9 @@ Session.prototype.addPoints = function( value ) {
 };
 
 Session.prototype.addOrUpdateNetworkPlayer = function( player ) {
-	if( player.pid === STORAGE.getItem('pid') ) {
-		return;
-	}
+	// if( player.pid === STORAGE.getItem('pid') ) {
+	// 	return;
+	// }
 	if( !this.players[player.pid] ) {
 
 		var num_players = Object.keys(this.players).length + 1;
