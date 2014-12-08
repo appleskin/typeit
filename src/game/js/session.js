@@ -5,8 +5,8 @@ Session = function() {
 
 Session.prototype.constructor = Session;
 
-Session.prototype.goHome = function() {
-	window.location.href = window.location.origin + "/welcome.html";
+Session.prototype.goHome = function( message ) {
+	window.location.href = window.location.origin + "/welcome.html?message=" + message;
 };
 
 Session.prototype.init = function( game ) {
@@ -163,7 +163,7 @@ Session.prototype.connect = function() {
 
 	}, function( error ) {
 		console.log( error );
-		this.goHome("Connection error");
+		this.goHome();
 	});
 };
 
