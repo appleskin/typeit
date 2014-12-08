@@ -18,6 +18,11 @@ Session.prototype.init = function( game ) {
 		this.goHome();
 	}
 
+	this.sounds = {
+		launch: game.add.audio('launch'),
+		explode: game.add.audio('explode')
+	}; 
+
 	this.game = game;
 	this.started = false;
 	this.auto_started = false;

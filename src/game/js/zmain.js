@@ -22,6 +22,9 @@ function preload() {
     game.load.image( 'player',          'img/player.png'            );
     game.load.image( 'fire_particle',   'img/fire_particle.png'     );
     game.load.image( 'smoke_particle',  'img/smoke_particle.png'    );
+
+    game.load.audio('launch',   [ 'img/launch.mp3',     'img/launch.ogg'    ]);
+    game.load.audio('explode',  [ 'img/explode.mp3',    'img/explode.ogg'   ]);
     
     game.load.spritesheet( 'missile',   'img/missileSpriteSheet.png',  150, 30, 4  );
     game.load.spritesheet( 'missile_2', 'img/missile2SpriteSheet.png', 150, 30, 4  );

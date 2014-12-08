@@ -49,7 +49,7 @@ module.exports = function (grunt) {
                 dest: 'dist/welcome.html'
             },
             img: {
-                src: 'img/*.png',
+                src: 'img/*',
                 dest: 'dist/'
             },
             vex: {

@@ -93,6 +93,7 @@ Missile.prototype.update = function() {
 };
 
 Missile.prototype.launch = function() {
+	SESSION.sounds.launch.play();
 	this.body.velocity.x = CONFIG.app.missile_velocity;
 	if( this.reverse ) {
 		this.body.velocity.x *= -1;
@@ -109,6 +110,7 @@ Missile.prototype.launch = function() {
 
 Missile.prototype.explode = function() {
 	SESSION.emitter.emitExplosion( this.x, this.y );
+	SESSION.sounds.explode.play();
 
 	this.display_text.destroy( true );
 	this.destroy( true );
