@@ -57,6 +57,11 @@ Missile.prototype.update = function() {
 
 		if( SESSION.host ) {
 			// reload right away if off screen
+			try {
+				SESSION.firebase.nukeMissile( missile.mid );
+			} catch( ex ) {
+				console.error( ex );
+			}
 			SESSION.missiles.reloadMissileBay( this.y, this.ownerId );
 		}
 
