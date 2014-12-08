@@ -51,7 +51,7 @@ Missile.prototype.update = function() {
     	this.display_text.y = this.y - this.height/4;
     }
 
-    if( this.angle > 20 || this.angle < -20 ) {
+    if( this.angle > 10 || this.angle < -10 ) {
     	this.rot *= -1;
     }
 
@@ -92,7 +92,7 @@ Missile.prototype.launch = function() {
 	}
 	this.launched = true;
 
-    this.rot = UTIL.random(1,5);
+    this.rot = UTIL.random(1,3);
     if( UTIL.flip() ) {
     	this.rot *= -1;
     }
