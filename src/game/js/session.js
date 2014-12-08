@@ -12,9 +12,13 @@ Session.prototype.goHome = function() {
 Session.prototype.init = function( game ) {
 	this.mode = UTIL.getUrlParam('mode');
 
+	this.bg = new Bg( game );
+
 	if( this.mode !== 'deathmatch' ) {
 		this.goHome();
 	}
+
+	this.graphics = game.add.graphics(0, 0);
 
 	this.game = game;
 	this.started = false;
@@ -88,34 +92,36 @@ Session.prototype.update = function() {
 
 Session.prototype.drawHud = function() {
 	var player_keys = Object.keys( this.players );
+
+    // draw hud bg
+    this.graphics.beginFill();
+    this.graphics.lineStyle( 50, 0x0F5596, 1 );
+    this.graphics.moveTo( 0, CONFIG.world.y );
+    this.graphics.lineTo( CONFIG.world.x, CONFIG.world.y );
+    this.graphics.endFill();
+
+    // draw hud border
+    this.graphics.beginFill();
+    this.graphics.lineStyle( 5, 0x0B4070, 1 );
+    this.graphics.moveTo( 0, CONFIG.world.y - 25 );
+    this.graphics.lineTo( CONFIG.world.x, CONFIG.world.y - 25 );
+    this.graphics.endFill();
 	
 	if( this.started ) {
 		try {
 			var p1 = this.players[player_keys[0]];
 
 			if( this.mode === 'deathmatch' ) {
-				game.debug.text('Your Health: ' + p1.health, 10, 20);
+				game.debug.text('Your Health: ' + p1.health, 10, CONFIG.world.y - 8 );
 			}
 		} catch( ex ) { /* nom nom nom */ }
 
 		try {
 			var p2 = this.players[player_keys[1]];
 			if( this.mode === 'deathmatch' ) {
-				game.debug.text('Enemy Health: ' + p2.health, CONFIG.world.x - 150, 20);
+				game.debug.text('Enemy Health: ' + p2.health, CONFIG.world.x - 155, CONFIG.world.y - 8 );
 			}
 		} catch( ex ) { /* nom nom nom */ }
-
-		if( this.mode === 'classic' ) {
-			try {
-				for( var i=0; i<player_keys.length; i++ ) {
-					var p = this.players[player_keys[i]];
-
-					var text = p.pid === STORAGE.getItem('pid') ? 'Your Score:' + p.score : 'Other Guy ' + i + ' Score: ' + p.score;
-
-					game.debug.text( text, 10, 25*(i+1) );
-				}
-			} catch( ex ) { console.error( ex ); }
-		}
 	}
 
 	if( !this.started && this.mode === 'deathmatch' ) {

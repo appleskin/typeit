@@ -1,6 +1,6 @@
 /**
  *
- *     TYPE IT - LIKE A BOSS
+ *     TYPE IT - REAL GOOD
  *
  */
 
@@ -18,8 +18,10 @@ var WORD_LIST   = new WordList();
 var game = new Phaser.Game( CONFIG.world.x, CONFIG.world.y, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render } );
 
 function preload() {
+    game.load.image( 'bg',          'img/bg.png'            );
     game.load.image( 'player',      'img/player.png'        );
     game.load.image( 'missile',     'img/missile.png'       );
+    game.load.image( 'missile_2',   'img/missile2.png'      );
     game.load.image( 'asteroid_0',  'img/asteroid_1.png'    );
     game.load.image( 'asteroid_1',  'img/asteroid_2.png'    );
     game.load.image( 'asteroid_2',  'img/asteroid_3.png'    );
