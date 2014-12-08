@@ -92,9 +92,6 @@ Session.prototype.update = function() {
 
 Session.prototype.drawHud = function() {
 	var player_keys = Object.keys( this.players );
-
-	game.debug.text( this.emitter.fire_emitter.total, 32, 32);
-	game.debug.text( this.emitter.smoke_emitter.total, 32, 64);
 	
 	if( this.started ) {
 		try {
