@@ -30,6 +30,8 @@ Missile = function( game, x, y, text, reverse, mid, owner ) {
     this.body.velocity.x = 0;
     this.body.velocity.y = 0;
 
+    this.rot = 0;
+
     this.launched = false;
 
     game.add.existing( this.display_text );
@@ -48,6 +50,12 @@ Missile.prototype.update = function() {
     	this.display_text.x = this.x - this.width/4;
     	this.display_text.y = this.y - this.height/4;
     }
+
+    if( this.angle > 20 || this.angle < -20 ) {
+    	this.rot *= -1;
+    }
+
+    this.angle += this.rot;
 
 	if( this.x > CONFIG.world.x + 75 || this.x < -75 ) {
 
@@ -83,6 +91,11 @@ Missile.prototype.launch = function() {
 		this.body.velocity.x *= -1;
 	}
 	this.launched = true;
+
+    this.rot = UTIL.random(1,5);
+    if( UTIL.flip() ) {
+    	this.rot *= -1;
+    }
 };
 
 Missile.prototype.explode = function() {
