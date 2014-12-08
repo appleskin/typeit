@@ -6,6 +6,8 @@ Missile = function( game, x, y, text, reverse, mid, owner ) {
 
 	Phaser.Sprite.call(this, game, x, y, sprite_name);
 
+	this.animations.add('fire');
+
     this.anchor.setTo( 0.5, 0.5 );
     this.reverse = reverse;
     if( reverse ) {
@@ -97,6 +99,8 @@ Missile.prototype.launch = function() {
 	}
 	this.launched = true;
 
+	this.animations.play('fire', 15, true);
+
     this.rot = UTIL.random(1,5)/10;
     if( UTIL.flip() ) {
     	this.rot *= -1;
@@ -104,6 +108,8 @@ Missile.prototype.launch = function() {
 };
 
 Missile.prototype.explode = function() {
+	SESSION.emitter.emitExplosion( this.x, this.y );
+
 	this.display_text.destroy( true );
 	this.destroy( true );
 };

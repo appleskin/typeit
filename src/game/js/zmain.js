@@ -15,19 +15,19 @@ var WORD_LIST   = new WordList();
  *      PHASER TIME
  *
  */
-var game = new Phaser.Game( CONFIG.world.x, CONFIG.world.y, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render } );
+var game = new Phaser.Game( CONFIG.world.x, CONFIG.world.y, Phaser.AUTO, 'TYPE IT', { preload: preload, create: create, update: update, render: render } );
 
 function preload() {
-    game.load.image( 'bg',          'img/bg.png'            );
-    game.load.image( 'player',      'img/player.png'        );
-    game.load.image( 'missile',     'img/missile.png'       );
-    game.load.image( 'missile_2',   'img/missile2.png'      );
-    game.load.image( 'asteroid_0',  'img/asteroid_1.png'    );
-    game.load.image( 'asteroid_1',  'img/asteroid_2.png'    );
-    game.load.image( 'asteroid_2',  'img/asteroid_3.png'    );
-};
+    game.load.image( 'bg',              'img/bg.png'                );
+    game.load.image( 'player',          'img/player.png'            );
+    game.load.image( 'fire_particle',   'img/fire_particle.png'     );
+    game.load.image( 'smoke_particle',  'img/smoke_particle.png'    );
     
-function create(){
+    game.load.spritesheet( 'missile',   'img/missileSpriteSheet.png',  150, 30, 4  );
+    game.load.spritesheet( 'missile_2', 'img/missile2SpriteSheet.png', 150, 30, 4  );
+};
+
+function create() {
     SESSION.init( game );
     SESSION.connect();
 };

@@ -18,8 +18,6 @@ Session.prototype.init = function( game ) {
 		this.goHome();
 	}
 
-	this.graphics = game.add.graphics(0, 0);
-
 	this.game = game;
 	this.started = false;
 	this.auto_started = false;
@@ -27,6 +25,8 @@ Session.prototype.init = function( game ) {
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, CONFIG.world.x, CONFIG.world.y);
     this.game.physics.arcade.gravity.y = CONFIG.gravity.y;
+
+    this.emitter = new Particles( this.game );
 
     if( this.mode === 'deathmatch' ) {
     	this.game.physics.arcade.gravity.y = 0;
@@ -92,6 +92,9 @@ Session.prototype.update = function() {
 
 Session.prototype.drawHud = function() {
 	var player_keys = Object.keys( this.players );
+
+	game.debug.text( this.emitter.fire_emitter.total, 32, 32);
+	game.debug.text( this.emitter.smoke_emitter.total, 32, 64);
 	
 	if( this.started ) {
 		try {
