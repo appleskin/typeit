@@ -306,19 +306,9 @@ Session.prototype.playerRemoved = function( player ) {
 Session.prototype.win = function( pid ) {
 	var thisSession = this;
 	if( pid === STORAGE.getItem('pid') ) {
-		vex.dialog.open({
-		  	message: 'You Win!',
-		  	callback: function(data) {
-		  		thisSession.goHome("Woot! GG Mate!");
-		  	}
-		});
+		thisSession.goHome( 'winner' );
 	} else {
-		vex.dialog.alert({
-			message: 'You Lose!',
-			callback: function() {
-				thisSession.goHome("Dang! Sorry about the loss...");	
-			}
-		});
+		thisSession.goHome( 'loser' );
 	}
 };
 
