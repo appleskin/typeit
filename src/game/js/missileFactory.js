@@ -17,6 +17,15 @@ MissileFactory.prototype.insertMissile = function( missile ) {
 MissileFactory.prototype.removeMissile = function( mid ) {
 	this.forEach( function( item ) {
 	    if( item && item.mid === mid ) {
+
+	    	if( SESSION.host ) {
+	    		try {
+					SESSION.firebase.nukeMissile( missile.mid );
+				} catch( ex ) {
+					console.error( ex );
+				}
+	    	}
+
 	    	item.explode();
 	    }
 	}, this);

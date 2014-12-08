@@ -56,24 +56,8 @@ Missile.prototype.update = function() {
 		this.body.velocity = 0;
 
 		if( SESSION.host ) {
-			
-			var thisMissile = this;
-			var thisMiddileId = this.mid;
-			// RELOAD - New missile reslots 1 seconds later
-			setTimeout( function() {
-				
-				SESSION.missiles.reloadMissileBay( thisMissile.y, thisMissile.ownerId );
-				
-				SESSION.firebase.nukeMissile( thisMissileId );
-				
-				// var thatMissile = thisMissile;
-				// setTimeout( function() {
-				// 	console.log( "Killing old missile" );
-				// 	thatMissile.explode();
-				// }, 5000	);
-			}, 1000 );
-
-			
+			// reload right away if off screen
+			SESSION.missiles.reloadMissileBay( this.y, this.ownerId );
 		}
 
 		var player_keys = Object.keys(SESSION.players);
