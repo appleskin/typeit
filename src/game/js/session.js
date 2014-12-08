@@ -63,12 +63,6 @@ Session.prototype.init = function( game ) {
     };
 
     document.body.appendChild( input );
-
-    if( UTIL.getUrlParam('lobbyId' ) ) {
-		vex.dialog.alert('Joining Session');
-	} else {
-		this.showInvite('Session Reset');
-	}
 };
 
 Session.prototype.showInvite = function( message ) {
@@ -133,6 +127,12 @@ Session.prototype.addPlayer = function( player ) {
 Session.prototype.connect = function() {
 	var player = new Player( game, 0, CONFIG.world.y-25 );
 	this.addPlayer( player );
+
+    if( UTIL.getUrlParam('lobbyId' ) ) {
+		vex.dialog.alert('Joining Session');
+	} else {
+		this.showInvite('Session Reset');
+	}
 
 	this.lobbyId = UTIL.getUrlParam('lobbyId');
 	if( this.lobbyId ) {
