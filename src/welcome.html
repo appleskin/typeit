@@ -13,6 +13,9 @@
 				window.location.href = window.location.origin + '?mode=deathmatch';
 			}
 		};
+		var getUrlParam = function( name ) {
+			return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+		};
 	</script>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -69,5 +72,13 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		var message = getUrlParam('message');
+		if( message === 'winner' ) {
+			vex.dialog.alert( 'You Won!' );
+		} else if( message === 'loser' ) {
+			vex.dialog.alert( 'You Lost!' );
+		} 
+	</script>
 </body>
 </html>

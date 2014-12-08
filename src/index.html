@@ -7,9 +7,6 @@
 		if( window.location.href.indexOf('mode') === -1 ) {
 			window.location.href = window.location.origin + "/welcome.html";
 		}
-		var getUrlParam = function( name ) {
-			return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-		};
 	</script>
 
 	<script>
@@ -43,12 +40,4 @@
 
 		<div id="game"></div>
 	</body>
-	<script>
-		var message = getUrlParam('message');
-		if( message === 'winner' ) {
-			vex.dialog.alert( 'You Won!' );
-		} else if( message === 'loser' ) {
-			vex.dialog.alert( 'You Lost!' );
-		} 
-	</script>
 </html>
