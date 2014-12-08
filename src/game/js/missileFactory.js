@@ -49,7 +49,7 @@ MissileFactory.prototype.spawnMissileBays = function() {
 	
 	// Spawn 10 for host
 	var x = offset;
-	var y = 50;
+	var y = 60;
 	for( var i=0; i<max; i++ ) {
 		var target = new Missile( this.game, x, y, UTIL.getRandomWord(), false, this.currentId++, p1.pid );
 		SESSION.firebase.insertMissile( target );
