@@ -92,20 +92,6 @@ Session.prototype.update = function() {
 
 Session.prototype.drawHud = function() {
 	var player_keys = Object.keys( this.players );
-
-    // draw hud bg
-    // this.graphics.beginFill();
-    // this.graphics.lineStyle( 50, 0x0F5596, 1 );
-    // this.graphics.moveTo( 0, CONFIG.world.y );
-    // this.graphics.lineTo( CONFIG.world.x, CONFIG.world.y );
-    // this.graphics.endFill();
-
-    // // draw hud border
-    // this.graphics.beginFill();
-    // this.graphics.lineStyle( 5, 0x0B4070, 1 );
-    // this.graphics.moveTo( 0, CONFIG.world.y - 25 );
-    // this.graphics.lineTo( CONFIG.world.x, CONFIG.world.y - 25 );
-    // this.graphics.endFill();
 	
 	if( this.started ) {
 		try {
