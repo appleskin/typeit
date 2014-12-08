@@ -60,9 +60,10 @@ Missile.prototype.update = function() {
 			try {
 				SESSION.firebase.nukeMissile( missile.mid );
 			} catch( ex ) {
-				console.error( ex );
+				// TODO: trouble syncing reload
+				//console.error( ex );
 			}
-			SESSION.missiles.reloadMissileBay( this.y, this.ownerId );
+			//SESSION.missiles.reloadMissileBay( this.y, this.ownerId );
 		}
 
 		var player_keys = Object.keys(SESSION.players);
